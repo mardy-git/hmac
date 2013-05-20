@@ -12,5 +12,11 @@
             "name": "Michael Bardsley",
             "email": "me@mic-b.co.uk"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-0": {
+            "Mardy\\Hmac": "src/"
+        }
+    },
+    "minimum-stability": "dev"
 }
