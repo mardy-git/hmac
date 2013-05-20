@@ -1,5 +1,16 @@
 {
+    "name": "mardy-dev/hmac",
+    "description": "A keyed-Hash Message Authentication Code (HMAC). Used for application to application authentication",
+    "keywords": ["hmac", "authentication"],
+    "homepage": "http://github.com/mardy-dev/hmac",
+    "license": "WTFPL",
     "require": {
-        "php": ">=5.3"
-    }
+        "php": ">=5.4"
+    },
+    "authors": [
+        {
+            "name": "Michael Bardsley",
+            "email": "me@mic-b.co.uk"
+        }
+    ]
 }
