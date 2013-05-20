@@ -1,6 +1,6 @@
 <?php
 
-namespace Scc\Hmac\Storage;
+namespace Mardy\Hmac\Storage;
 
 interface HmacStorageInterface
 {

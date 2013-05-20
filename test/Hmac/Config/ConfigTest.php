@@ -1,6 +1,6 @@
 <?php
 
-use Scc\Hmac\Config\Config;
+use Mardy\Hmac\Config\Config;
 
 class ConfigValuesTest
     extends PHPUnit_Framework_Testcase
@@ -46,7 +46,7 @@ class ConfigValuesTest
         $config = clone $this->config;
 
         //set a key so we know what to check for
-        $this->assertInstanceOf('Scc\Hmac\Config\Config', $config->setValidityPeriod(150));
+        $this->assertInstanceOf('Mardy\Hmac\Config\Config', $config->setValidityPeriod(150));
     }
 
     public function testGetValidityPeriodSame()

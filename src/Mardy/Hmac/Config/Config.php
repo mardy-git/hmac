@@ -1,16 +1,16 @@
 <?php
 
-namespace Scc\Hmac\Config;
+namespace Mardy\Hmac\Config;
 
-use Scc\Hmac\Exception\HmacValueMissingException;
+use Mardy\Hmac\Exception\HmacValueMissingException;
 
 /**
  * Config Class
  *
  * Stores the config options for the HMAC class
  *
- * @package        Symphony Common Components
- * @subpackage     SCC
+ * @package        mardy-dev
+ * @subpackage     Authentication
  * @category       HMAC
  * @author         Michael Bardsley
  */

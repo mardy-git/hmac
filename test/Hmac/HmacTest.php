@@ -1,6 +1,6 @@
 <?php
 
-use Scc\Hmac\Hmac;
+use Mardy\Hmac\Hmac;
 
 class HmacTest
     extends PHPUnit_Framework_Testcase
@@ -19,11 +19,11 @@ class HmacTest
 
     public function setup()
     {
-        $this->config = $this->getMockBuilder('Scc\Hmac\Config\Config')
+        $this->config = $this->getMockBuilder('Mardy\Hmac\Config\Config')
                              ->setMethods(['getValidFor', 'getKey'])
                              ->getMock();
 
-        $this->storage = $this->getMockBuilder('Scc\Hmac\Storage\NonPersistent')
+        $this->storage = $this->getMockBuilder('Mardy\Hmac\Storage\NonPersistent')
                               ->setMethods(['getHmac', 'getUri', 'getTimestamp'])
                               ->getMock();
 

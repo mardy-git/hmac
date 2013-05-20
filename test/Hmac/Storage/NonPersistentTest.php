@@ -1,6 +1,6 @@
 <?php
 
-use Scc\Hmac\Storage\NonPersistent;
+use Mardy\Hmac\Storage\NonPersistent;
 
 class NonPersistentTest
     extends PHPUnit_Framework_Testcase
@@ -16,7 +16,7 @@ class NonPersistentTest
     {
         $storage = clone $this->storage;
 
-        $this->assertInstanceOf('Scc\Hmac\Storage\NonPersistent', $storage->setHmac('qwertyuiop'));
+        $this->assertInstanceOf('Mardy\Hmac\Storage\NonPersistent', $storage->setHmac('qwertyuiop'));
     }
 
     public function testGetHmacSame()
@@ -32,7 +32,7 @@ class NonPersistentTest
     {
         $storage = clone $this->storage;
 
-        $this->assertInstanceOf('Scc\Hmac\Storage\NonPersistent', $storage->setUri("api/user/1/role/1"));
+        $this->assertInstanceOf('Mardy\Hmac\Storage\NonPersistent', $storage->setUri("api/user/1/role/1"));
     }
 
     public function testGetUriSame()
@@ -48,7 +48,7 @@ class NonPersistentTest
     {
         $storage = clone $this->storage;
 
-        $this->assertInstanceOf('Scc\Hmac\Storage\NonPersistent', $storage->setTimestamp(time()));
+        $this->assertInstanceOf('Mardy\Hmac\Storage\NonPersistent', $storage->setTimestamp(time()));
     }
 
     public function testGetTimeoutSame()

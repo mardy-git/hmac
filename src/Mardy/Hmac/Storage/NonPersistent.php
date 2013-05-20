@@ -1,17 +1,17 @@
 <?php
 
-namespace Scc\Hmac\Storage;
+namespace Mardy\Hmac\Storage;
 
-use Scc\Hmac\Exception\HmacValueMissingException;
-use Scc\Hmac\Storage\HmacStorageInterface;
+use Mardy\Hmac\Exception\HmacValueMissingException;
+use Mardy\Hmac\Storage\HmacStorageInterface;
 
 /**
  * NonPersistent Class
  *
  * Stores the values used to check the HMAC
  *
- * @package        Symphony Common Components
- * @subpackage     SCC
+ * @package        mardy-dev
+ * @subpackage     Authentication
  * @category       HMAC
  * @author         Michael Bardsley
  */

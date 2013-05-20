@@ -1,6 +1,6 @@
 <?php
 
-namespace Scc\Hmac\Exception;
+namespace Mardy\Hmac\Exception;
 
 class HmacTimeoutException
     extends \RuntimeException

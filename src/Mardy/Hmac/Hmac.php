@@ -1,19 +1,19 @@
 <?php
 
-namespace Scc\Hmac;
+namespace Mardy\Hmac;
 
-use Scc\Hmac\Exception\HmacValueMissingException;
-use Scc\Hmac\Exception\HmacTimeoutException;
-use Scc\Hmac\Config\Config;
-use Scc\Hmac\Storage\NonPersistent;
+use Mardy\Hmac\Exception\HmacValueMissingException;
+use Mardy\Hmac\Exception\HmacTimeoutException;
+use Mardy\Hmac\Config\Config;
+use Mardy\Hmac\Storage\NonPersistent;
 
 /**
  * Hmac Class
  *
  * Manages all the HMAC checking for the application
  *
- * @package        Symphony Common Components
- * @subpackage     SCC
+ * @package        mardy-dev
+ * @subpackage     Authentication
  * @category       HMAC
  * @author         Michael Bardsley
  */
