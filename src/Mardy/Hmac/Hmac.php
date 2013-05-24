@@ -233,11 +233,28 @@ class Hmac
         //the first has contains the URI and timestamps that have been set
         $firsthash = hash("sha512", $this->getStorage()->getUri() . "@" . $this->getStorage()->getTimestamp());
 
+        //loop to make it hard to crack this hash
+        for ($i = 0; $i < 10; $i++) {
+            $firsthash = hash("sha512", $firsthash);
+        }
+
         //the second has the private key
         $secondhash = hash("sha512", $this->getConfig()->getKey());
 
-        //returned is an hash of both the previous hashes
-        return hash("sha512", $firsthash . "-" . $secondhash);
+        //loop to make it hard to crack this hash
+        for ($i = 0; $i < 10; $i++) {
+            $secondhash = hash("sha512", $secondhash);
+        }
 
+        //returned is an hash of both the previous hashes
+        $finalhash = hash("sha512", $firsthash . "-" . $secondhash);
+
+        //loop to further encode the HMAC key, this will make it harder to crack
+        for ($i = 0; $i < 100; $i++) {
+            $finalhash = hash("sha512", $finalhash);
+        }
+
+        //returned is an hash that has been hashed a lot of times
+        return $finalhash;
     }
 }
