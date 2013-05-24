@@ -135,18 +135,24 @@ class Hmac
      */
     protected function checkInput($checkHmac = true)
     {
-        //throw an exception if the $hmac is null
+        //return false if the private key is is null or has not been set
+        if (is_null($this->getConfig()->getKey()) || $this->getConfig()->getKey() == '') {
+            $this->setError("No private key has been set");
+            return false;
+        }
+        
+        //return false if the $hmac is null
         if ($checkHmac === true && is_null($this->getStorage()->getHmac())) {
             $this->setError("An attempt to assign a null HMAC key was detected");
             return false;
         }
-        //throw an exception if the $uri is null
+        //return false if the $uri is null
         if (is_null($this->getStorage()->getUri())) {
             $this->setError("No URI was set when an HMAC check was attempted");
             return false;
         }
 
-        //throw an exception if the ts has not been set
+        //return false if the ts has not been set
         if (is_null($this->getStorage()->getTimestamp())) {
             $this->setError("No TimeStamp was set when an HMAC check was attempted");
             return false;

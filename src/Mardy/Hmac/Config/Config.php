@@ -23,9 +23,12 @@ class Config
      * This can be changed but must be applied to all the other apps that are using this library
      * /[a-zA-Z0-9]/
      *
+     * Example Key:
+     * wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb
+     * 
      * @var string
      */
-    protected $key = "wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb";
+    protected $key = null;
 
     /**
      * Holds the number of seconds until the request is valid for
@@ -45,6 +48,19 @@ class Config
     }
 
     /**
+     * Setter method to set the key
+     * 
+     * @param type $key
+     * @return \Mardy\Hmac\Config\Config
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+        
+        return $this;
+    }
+    
+    /**
      * Getter method to return the validFor value
      *
      * @return number
@@ -59,7 +75,7 @@ class Config
      * validFor must be set to a number or it will not be changed
      *
      * @param number $validFor
-     * @return ConfigValues
+     * @return \Mardy\Hmac\Config\Config
      */
     public function setValidityPeriod($validFor)
     {
