@@ -32,9 +32,9 @@ Usage Example
 
     //Sets the HMAC, timestamp and URI
     $hmac->getStorage()
-               ->setHmac($values['key'])
-               ->setTimestamp($values['when'])
-               ->setUri($values['uri']);
+         ->setHmac($values['key'])
+         ->setTimestamp($values['when'])
+         ->setUri($values['uri']);
 
     //returns true or false based on if the HMAC key is valid;
     if(! $hmac->check())
