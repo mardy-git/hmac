@@ -157,7 +157,7 @@ class Config
         $hashes = hash_algos();
 
         //return false if the algorithm is not allowed
-        if (! in_array($algorithm, (string) $hashes)) {
+        if (! in_array((string) $algorithm, $hashes)) {
             return false;
         }
 
