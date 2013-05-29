@@ -2,8 +2,7 @@
 
 namespace Mardy\Hmac;
 
-use Mardy\Hmac\Exception\HmacValueMissingException;
-use Mardy\Hmac\Exception\HmacTimeoutException;
+use Mardy\Hmac\Headers;
 use Mardy\Hmac\Config\Config;
 use Mardy\Hmac\Storage\NonPersistent;
 
@@ -43,7 +42,8 @@ class Hmac
     /**
      * Constructor
      *
-     * @param Config $config
+     * @param \Mardy\Hmac\Config\Config $config
+     * @param \Mardy\Hmac\Storage\NonPersistent $storage
      */
     public function __construct(Config $config, NonPersistent $storage)
     {
@@ -140,7 +140,7 @@ class Hmac
             $this->setError("No private key has been set");
             return false;
         }
-        
+
         //return false if the $hmac is null
         if ($checkHmac === true && is_null($this->getStorage()->getHmac())) {
             $this->setError("An attempt to assign a null HMAC key was detected");
