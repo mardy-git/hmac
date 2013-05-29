@@ -237,27 +237,45 @@ class Hmac
     protected function encode()
     {
         //the first has contains the URI and timestamps that have been set
-        $firsthash = hash("sha512", $this->getStorage()->getUri() . "@" . $this->getStorage()->getTimestamp());
+        $firsthash = hash(
+            $this->getConfig()->getAlgorithm(),
+            $this->getStorage()->getUri() . "@" . $this->getStorage()->getTimestamp()
+        );
 
         //loop to make it hard to crack this hash
         for ($i = 0; $i < 10; $i++) {
-            $firsthash = hash("sha512", $firsthash);
+            $firsthash = hash(
+                $this->getConfig()->getAlgorithm(),
+                $firsthash
+            );
         }
 
         //the second has the private key
-        $secondhash = hash("sha512", $this->getConfig()->getKey());
+        $secondhash = hash(
+            $this->getConfig()->getAlgorithm(),
+            $this->getConfig()->getKey()
+        );
 
         //loop to make it hard to crack this hash
         for ($i = 0; $i < 10; $i++) {
-            $secondhash = hash("sha512", $secondhash);
+            $secondhash = hash(
+                $this->getConfig()->getAlgorithm(),
+                $secondhash
+            );
         }
 
         //returned is an hash of both the previous hashes
-        $finalhash = hash("sha512", $firsthash . "-" . $secondhash);
+        $finalhash = hash(
+            $this->getConfig()->getAlgorithm(),
+            $firsthash . "-" . $secondhash
+        );
 
         //loop to further encode the HMAC key, this will make it harder to crack
         for ($i = 0; $i < 100; $i++) {
-            $finalhash = hash("sha512", $finalhash);
+            $finalhash = hash(
+                $this->getConfig()->getAlgorithm(),
+                $finalhash
+            );
         }
 
         //returned is an hash that has been hashed a lot of times

@@ -31,6 +31,14 @@ class ConfigValuesTest
         $this->assertSame(120, $config->getValidityPeriod());
     }
 
+    public function testSetKey()
+    {
+        $config = clone $this->config;
+
+        $this->assertInstanceOf("Mardy\Hmac\Config\Config", $config->setKey('1234567890'));
+        $this->assertSame('1234567890', $config->getKey());
+    }
+
     /**
      * @expectedException RuntimeException
      */
@@ -58,5 +66,37 @@ class ConfigValuesTest
 
         //will pass this time
         $this->assertSame(520, $config->getValidityPeriod());
+    }
+
+    public function testGetAlgorithmSame()
+    {
+        $config = clone $this->config;
+
+        $this->assertSame('sha512', $config->getAlgorithm());
+    }
+
+    public function testGetAlgorithmNotSame()
+    {
+        $config = clone $this->config;
+
+        $this->assertNotSame('md5', $config->getAlgorithm());
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testSetAlgorithmException()
+    {
+        $config = clone $this->config;
+
+        $config->setAlgorithm('mike1');
+    }
+
+    public function testSetAlgorithmReturn()
+    {
+        $config = clone $this->config;
+
+        $this->assertInstanceOf("Mardy\Hmac\Config\Config", $config->setAlgorithm('sha256'));
+        $this->assertSame('sha256', $config->getAlgorithm());
     }
 }
