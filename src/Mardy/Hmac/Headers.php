@@ -23,7 +23,7 @@ class Headers
      * @param int $timestamp contains the timestamp from when the request was made
      * @param string $uri contains the URI that was used in the request
      */
-    public static function set($key = null, $timestamp = null, $uri = null)
+    public function set($key = null, $timestamp = null, $uri = null)
     {
         //checks to ensure that all the values are not null
         if (is_null($key)) {
@@ -51,7 +51,7 @@ class Headers
      * @return array contains the required details from the header
      * @throws HmacValueMissingException
      */
-    public static function get()
+    public function get()
     {
         $return = [];
 
@@ -65,7 +65,7 @@ class Headers
 
         //if the HTTP_WHEN var is not set then throw an exception
         if (! isset($_SERVER['HTTP_WHEN'])) {
-            throw new HmacValueMissingException("No timestamp has been passed in the header");
+            throw new HmacValueMissingException("No timestamp has been set in the header");
         }
 
         //get the timestamp
@@ -73,7 +73,7 @@ class Headers
 
         //if the HTTP_URI var is not set then throw an exception
         if (! isset($_SERVER['HTTP_URI'])) {
-            throw new HmacValueMissingException("No URI has been sent in the header");
+            throw new HmacValueMissingException("No URI has been set in the header");
         }
 
         //get the URI
