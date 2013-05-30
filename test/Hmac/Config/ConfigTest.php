@@ -2,14 +2,15 @@
 
 use Mardy\Hmac\Config\Config;
 
-class ConfigValuesTest
-    extends PHPUnit_Framework_Testcase
+class ConfigTest extends PHPUnit_Framework_Testcase
 {
     protected $config;
 
     public function setup()
     {
         $this->config = new Config;
+
+        $this->config->setKey('wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb');
     }
 
     public function testGetKey()
