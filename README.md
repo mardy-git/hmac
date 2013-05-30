@@ -1,4 +1,4 @@
-Mardy-Dev HMAC
+Mardy-Git HMAC
 ==============
 
 A simple lightweight HMAC generator and checker.
@@ -8,10 +8,10 @@ Currently this is used to authenticate applications to other applications.
 Usage Example
 --------------------
 
-    use \Mardy\Hmac\Hmac;
-    use \Mardy\Hmac\Headers;
-    use \Mardy\Hmac\Config\Config as HmacConfig;
-    use \Mardy\Hmac\Storage\NonPersistent as HmacStorage;
+    use Mardy\Hmac\Hmac;
+    use Mardy\Hmac\Headers;
+    use Mardy\Hmac\Config\Config as HmacConfig;
+    use Mardy\Hmac\Storage\NonPersistent as HmacStorage;
 
     $hmac = new Hmac(new HmacConfig, new HmacStorage);
 

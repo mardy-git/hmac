@@ -1,8 +1,8 @@
 {
-    "name": "mardy-dev/hmac",
-    "description": "A keyed-Hash Message Authentication Code (HMAC). Used for application to application authentication",
-    "keywords": ["hmac", "authentication"],
-    "homepage": "http://github.com/mardy-dev/hmac",
+    "name": "mardy-git/hmac",
+    "description": "A keyed-Hash Message Authentication Code (HMAC). Used for application to application authentication. Uses headers to send ",
+    "keywords": ["HMAC", "authentication"],
+    "homepage": "http://github.com/mardy-git/hmac",
     "license": "WTFPL",
     "require": {
         "php": ">=5.4"
