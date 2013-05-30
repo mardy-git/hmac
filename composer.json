@@ -1,6 +1,6 @@
 {
     "name": "mardy-git/hmac",
-    "description": "A keyed-Hash Message Authentication Code (HMAC). Used for application to application authentication. Uses headers to send ",
+    "description": "A keyed-Hash Message Authentication Code (HMAC). Used for application to application authentication.",
     "keywords": ["HMAC", "authentication"],
     "homepage": "http://github.com/mardy-git/hmac",
     "license": "WTFPL",
