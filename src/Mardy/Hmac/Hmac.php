@@ -5,6 +5,7 @@ namespace Mardy\Hmac;
 use Mardy\Hmac\Headers;
 use Mardy\Hmac\Config\Config;
 use Mardy\Hmac\Storage\NonPersistent;
+use Mardy\Hmac\Output\HeaderValues;
 
 /**
  * Hmac Class
@@ -19,18 +20,19 @@ use Mardy\Hmac\Storage\NonPersistent;
 class Hmac
 {
     /**
-     * Hold the instantiated ConfigValues class
-     *
-     * @var ConfigValues object
+     * @var \Mardy\Hmac\Config\Config
      */
     protected $config;
 
     /**
-     * Holds the instantiated NonPersistent class
-     *
-     * @var NonPersistent
+     * @var \Mardy\Hmac\Storage\NonPersistent
      */
     protected $storage;
+
+    /**
+     * @var \Mardy\Hmac\Headers\HeaderValues
+     */
+    protected $headerValues;
 
     /**
      * Hold the error reason
@@ -44,11 +46,13 @@ class Hmac
      *
      * @param \Mardy\Hmac\Config\Config $config
      * @param \Mardy\Hmac\Storage\NonPersistent $storage
+     * @param \Mardy\Hmac\Headers\HeaderValues $headerValues
      */
-    public function __construct(Config $config, NonPersistent $storage)
+    public function __construct(Config $config, NonPersistent $storage, HeaderValues $headerValues)
     {
         $this->setConfig($config);
         $this->setStorage($storage);
+        $this->setHeaderValues($headerValues);
     }
 
     /**
@@ -99,66 +103,21 @@ class Hmac
             return false;
         }
 
-        //work out how long the request has taken by subtracting the $ts from the current time
         $taken = time() - $this->getStorage()->getTimestamp();
 
-        //check to make sure the request was sent within the last 2 mins, if return false and produce an error
         if ($taken > $this->getConfig()->getValidityPeriod()) {
             $this->setError("The request has taken to long");
             return false;
         }
 
-        //all the values have been correctly set, now we need to encode the HMAC to see if it matches
-        //to the one that was sent in the request
         $hmac = $this->encode();
 
-        //build the HMAC array that will contain all the details needed to regenerate
-        //the HMAC on the other application
-        $return = [
-            'key' => $hmac,
-            'when' => $this->getStorage()->getTimestamp(),
-            'uri' => $this->getStorage()->getUri(),
-        ];
+        $headerValues = clone $this->headerValues;
 
-        //return true because the HMAC matches
-        return $return;
-    }
-
-    /**
-     * Check the inputs that have been supplied
-     * HMAC
-     * URI
-     * Timestamp
-     *
-     * @param boolean false if the HMAC needs to the checked or true if not
-     * @return boolean true if all the values have been sent false if not
-     */
-    protected function checkInput($checkHmac = true)
-    {
-        //return false if the private key is is null or has not been set
-        if (is_null($this->getConfig()->getKey()) || $this->getConfig()->getKey() == '') {
-            $this->setError("No private key has been set");
-            return false;
-        }
-
-        //return false if the $hmac is null
-        if ($checkHmac === true && is_null($this->getStorage()->getHmac())) {
-            $this->setError("An attempt to assign a null HMAC key was detected");
-            return false;
-        }
-        //return false if the $uri is null
-        if (is_null($this->getStorage()->getUri())) {
-            $this->setError("No URI was set when an HMAC check was attempted");
-            return false;
-        }
-
-        //return false if the ts has not been set
-        if (is_null($this->getStorage()->getTimestamp())) {
-            $this->setError("No TimeStamp was set when an HMAC check was attempted");
-            return false;
-        }
-
-        return true;
+        return $headerValues->setKey($hmac)
+                            ->setWhen($this->getStorage()->getTimestamp())
+                            ->setUri($this->getStorage()->getUri())
+                            ->setDisplayPrefix(false);
     }
 
     /**
@@ -204,6 +163,25 @@ class Hmac
     public function getStorage()
     {
         return $this->storage;
+    }
+
+    /**
+     * @param \Mardy\Hmac\Headers\HeaderValues $storage
+     * @return \Mardy\Hmac\Hmac
+     */
+    public function setHeaderValues($headerValues)
+    {
+        $this->headerValues = $headerValues;
+
+        return $this;
+    }
+
+    /**
+     * @return \Mardy\Hmac\Headers\HeaderValues
+     */
+    public function getHeaderValues()
+    {
+        return $this->headerValues;
     }
 
     /**
@@ -280,5 +258,42 @@ class Hmac
 
         //returned is an hash that has been hashed a lot of times
         return $finalhash;
+    }
+
+    /**
+     * Check the inputs that have been supplied
+     * HMAC
+     * URI
+     * Timestamp
+     *
+     * @param boolean false if the HMAC needs to the checked or true if not
+     * @return boolean true if all the values have been sent false if not
+     */
+    protected function checkInput($checkHmac = true)
+    {
+        //return false if the private key is is null or has not been set
+        if (is_null($this->getConfig()->getKey()) || $this->getConfig()->getKey() == '') {
+            $this->setError("No private key has been set");
+            return false;
+        }
+
+        //return false if the $hmac is null
+        if ($checkHmac === true && is_null($this->getStorage()->getHmac())) {
+            $this->setError("An attempt to assign a null HMAC key was detected");
+            return false;
+        }
+        //return false if the $uri is null
+        if (is_null($this->getStorage()->getUri())) {
+            $this->setError("No URI was set when an HMAC check was attempted");
+            return false;
+        }
+
+        //return false if the ts has not been set
+        if (is_null($this->getStorage()->getTimestamp())) {
+            $this->setError("No TimeStamp was set when an HMAC check was attempted");
+            return false;
+        }
+
+        return true;
     }
 }
