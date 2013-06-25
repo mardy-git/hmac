@@ -1,8 +1,8 @@
 <?php
 
-namespace Mardy\Hmac\Output;
+namespace Mardy\Hmac\Headers;
 
-class HeaderValues
+class Values
 {
     /**
      * @var string
@@ -37,9 +37,9 @@ class HeaderValues
     public function toArray()
     {
         return [
-            ($this->displayPrefix === true? $this->prefix: '') . 'KEY' => $this->getKey(),
-            ($this->displayPrefix === true? $this->prefix: '') . 'WHEN' => (int) $this->getWhen(),
-            ($this->displayPrefix === true? $this->prefix: '') . 'URI' => $this->getUri()
+            ($this->displayPrefix === true? $this->getPrefix(): '') . 'KEY' => $this->getKey(),
+            ($this->displayPrefix === true? $this->getPrefix(): '') . 'WHEN' => (int) $this->getWhen(),
+            ($this->displayPrefix === true? $this->getPrefix(): '') . 'URI' => $this->getUri()
         ];
     }
 

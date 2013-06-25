@@ -1,6 +1,6 @@
 <?php
 
-namespace Mardy\Hmac;
+namespace Mardy\Hmac\Headers;
 
 use Mardy\Hmac\Exception\HmacValueMissingException;
 

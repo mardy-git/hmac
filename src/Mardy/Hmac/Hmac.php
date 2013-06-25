@@ -2,10 +2,10 @@
 
 namespace Mardy\Hmac;
 
-use Mardy\Hmac\Headers;
+use Mardy\Hmac\Headers\Headers;
+use Mardy\Hmac\Headers\Values;
 use Mardy\Hmac\Config\Config;
 use Mardy\Hmac\Storage\NonPersistent;
-use Mardy\Hmac\Output\HeaderValues;
 
 /**
  * Hmac Class
@@ -30,7 +30,7 @@ class Hmac
     protected $storage;
 
     /**
-     * @var \Mardy\Hmac\Headers\HeaderValues
+     * @var \Mardy\Hmac\Headers\Values
      */
     protected $headerValues;
 
@@ -48,7 +48,7 @@ class Hmac
      * @param \Mardy\Hmac\Storage\NonPersistent $storage
      * @param \Mardy\Hmac\Headers\HeaderValues $headerValues
      */
-    public function __construct(Config $config, NonPersistent $storage, HeaderValues $headerValues)
+    public function __construct(Config $config, NonPersistent $storage, Values $headerValues)
     {
         $this->setConfig($config);
         $this->setStorage($storage);
@@ -112,12 +112,10 @@ class Hmac
 
         $hmac = $this->encode();
 
-        $headerValues = clone $this->headerValues;
-
-        return $headerValues->setKey($hmac)
-                            ->setWhen($this->getStorage()->getTimestamp())
-                            ->setUri($this->getStorage()->getUri())
-                            ->setDisplayPrefix(false);
+        return $this->headerValues->setKey($hmac)
+                                  ->setWhen($this->getStorage()->getTimestamp())
+                                  ->setUri($this->getStorage()->getUri())
+                                  ->setDisplayPrefix(false);
     }
 
     /**
