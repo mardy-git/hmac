@@ -37,9 +37,9 @@ class Values
     public function toArray()
     {
         return [
-            ($this->displayPrefix === true? $this->getPrefix(): '') . 'KEY' => $this->getKey(),
-            ($this->displayPrefix === true? $this->getPrefix(): '') . 'WHEN' => (int) $this->getWhen(),
-            ($this->displayPrefix === true? $this->getPrefix(): '') . 'URI' => $this->getUri()
+            ($this->displayPrefix === true? $this->getPrefix(): '') . 'KEY: '. $this->getKey(),
+            ($this->displayPrefix === true? $this->getPrefix(): '') . 'WHEN: ' . (int) $this->getWhen(),
+            ($this->displayPrefix === true? $this->getPrefix(): '') . 'URI: ' . $this->getUri()
         ];
     }
 
