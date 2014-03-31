@@ -2,7 +2,6 @@
 
 namespace Mardy\Hmac;
 
-use Mardy\Hmac\Headers\Headers;
 use Mardy\Hmac\Headers\Values;
 use Mardy\Hmac\Config\Config;
 use Mardy\Hmac\Storage\NonPersistent;
@@ -35,7 +34,7 @@ class Hmac
     protected $headerValues;
 
     /**
-     * Hold the error reason
+     * Hold the error message
      *
      * @var string
      */

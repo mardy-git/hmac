@@ -2,8 +2,6 @@
 
 namespace Mardy\Hmac\Headers;
 
-use Mardy\Hmac\Exception\HmacValueMissingException;
-
 /**
  * Headers Class
  *
@@ -33,21 +31,16 @@ class Headers
     }
 
     /**
-     * Getter method to get the required HMAC headers
+     * Getter method to get the required HMAC headers, returns null values if the header values cannot be found
      *
      * @return array contains the required details from the header
-     * @throws HmacValueMissingException
      */
     public function get()
     {
-        if (! isset($_SERVER['HTTP_KEY'], $_SERVER['HTTP_WHEN'], $_SERVER['HTTP_URI'])) {
-            throw new HmacValueMissingException("Missing headers!");
-        }
-
         return [
-            'key'   => filter_var($_SERVER['HTTP_KEY'], FILTER_SANITIZE_STRING),
-            'when'  => filter_var($_SERVER['HTTP_WHEN'], FILTER_SANITIZE_STRING),
-            'uri'   => filter_var($_SERVER['HTTP_URI'], FILTER_SANITIZE_STRING)
+            'key'   => isset($_SERVER['HTTP_KEY']) ? filter_var($_SERVER['HTTP_KEY'], FILTER_SANITIZE_STRING) : null,
+            'when'  => isset($_SERVER['HTTP_WHEN']) ? filter_var($_SERVER['HTTP_WHEN'], FILTER_SANITIZE_STRING) : null,
+            'uri'   => isset($_SERVER['HTTP_URI']) ? filter_var($_SERVER['HTTP_URI'], FILTER_SANITIZE_STRING) : null
         ];
     }
 }

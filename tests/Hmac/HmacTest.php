@@ -1,6 +1,7 @@
 <?php
 
 use Mardy\Hmac\Hmac;
+use Mardy\Hmac\Headers\Values as HeaderValues;
 
 class HmacTest
     extends PHPUnit_Framework_Testcase
@@ -33,7 +34,7 @@ class HmacTest
                               ->setMethods(['getHmac', 'getUri', 'getTimestamp'])
                               ->getMock();
 
-        $this->hmac = new Hmac($this->config, $this->storage);
+        $this->hmac = new Hmac($this->config, $this->storage, new HeaderValues);
 
         $this->algorithm = 'sha512';
     }
@@ -199,18 +200,19 @@ class HmacTest
     {
         $this->generatePassedHmac();
 
+        (new HeaderValues)->setKey($this->generatedHmac)
+                          ->setUri($this->uri)
+                          ->setWhen($this->when);
+
         $hmac = $this->hmac->create();
 
         $sample = [
-            'key' => $this->generatedHmac,
-            'when' => $this->when,
-            'uri' => $this->uri,
+            'KEY: ' . $this->generatedHmac,
+            'WHEN: ' . $this->when,
+            'URI: ' . $this->uri,
         ];
 
-        $this->assertSame(
-            $hmac,
-            $sample
-        );
+        $this->assertSame($hmac->toArray(), $sample);
     }
 
     public function testNoKeySet()
@@ -227,7 +229,7 @@ class HmacTest
                               ->setMethods(['getHmac', 'getUri', 'getTimestamp'])
                               ->getMock();
 
-        $this->hmac = new Hmac($this->config, $this->storage);
+        $this->hmac = new Hmac($this->config, $this->storage, new HeaderValues);
 
         $this->assertFalse($this->hmac->create());
 
@@ -272,7 +274,7 @@ class HmacTest
                      ->method('getKey')
                      ->will($this->returnValue($key));
 
-        $this->hmac = new Hmac($this->config, $this->storage);
+        $this->hmac = new Hmac($this->config, $this->storage, new HeaderValues);
     }
 
     protected function generatePassedHmac()
@@ -307,7 +309,7 @@ class HmacTest
                      ->method('getKey')
                      ->will($this->returnValue($key));
 
-        $this->hmac = new Hmac($this->config, $this->storage);
+        $this->hmac = new Hmac($this->config, $this->storage, new HeaderValues);
     }
 
     protected function encode ($key)
