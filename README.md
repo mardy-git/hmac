@@ -12,52 +12,64 @@ Installation
 
 To install this use composer by adding
 
-    "mardy-git/hmac": "dev-master"
+    "mardy-git/hmac": "v2.*"
 
 to your composer.json file
 
 Usage Example
 --------------------
 ```php
-use Mardy\Hmac\Hmac;
-use Mardy\Hmac\Headers;
-use Mardy\Hmac\Config\Config as HmacConfig;
-use Mardy\Hmac\Storage\NonPersistent as HmacStorage;
+use Mardy\Hmac\Manager;
+use Mardy\Hmac\Adapters\Hash;
 
-$hmac = new Hmac(new HmacConfig, new HmacStorage);
+$manager = new Manager(new Hash);
 
-//used to get the headers
-$headers = new Headers;
+//you can use any of the Hash algorithms that are available on your environment
+$config = ['algorithm' => 'sha256'];
 
 //the private key used in both applications to ensure the hash is the same
 $key = "wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb";
 
-//sets the private key, this needs to be loaded from your config
-$hmac->getConfig()->setKey($key);
-
-//optional, to set the hash algorithm
-$hmac->getConfig()->setAlgorithm("sha256");
-
-//get the information contained in the headers
-$values = $headers->get();
-
-//Sets the HMAC, timestamp and URI
-$hmac->getStorage()
-     ->setHmac($values['key'])
-     ->setTimestamp($values['when'])
-     ->setUri($values['uri']);
-
-//returns true or false based on if the HMAC key is valid;
-if(! $hmac->check())
-{
-    echo $hmac->getError();
+try {
+    $this->manager->config($config);
+} catch (\InvalidArgumentException $e) {
+    //an \InvalidArgumentException can be caught here
+    //"The algorithm ({$algorithm}) selected is not available"
 }
 
-//else process the script as required
-```
+//time to live, when checking if the hmac isValid this will ensure
+//that the time with have to be with this number of seconds
+$this->manager->ttl(2);
 
-If an error occurs when the check() method runs and error message can be
-view by calling the getError() method.
-```php
-echo $hmac->getError();
-```
+//the secure private key that will be stored locally and not sent in the http headers
+$this->manager->key('1234');
+
+//the data to be encoded with the hmac, you could use the URI for this
+$this->manager->data('test');
+
+//the current timestamp, this will be compared in the other API to ensure
+$this->manager->time(time());
+
+//encodes the hmac if all the requirements have been met
+try {
+    $this->manager->encode();
+} catch (\InvalidArgumentException $e) {
+    //an \InvalidArgumentException can be caught here
+    //'The item is not encodable, make sure the key, time and data are set'
+}
+
+$hmac = $this->manager->toArray();
+
+//[
+//    'data' => 'test',
+//    'time' => 1396901689,
+//    'hmac' => 'f22081d5fcdc64e3ee78e79d235f67b2d1a54ba24be6da4ac537976d313e07cf119731e76585b9b22f789c6043efe1df133497483f559899db7d2f4398084b08',
+//]
+
+//to check if the hmac is valid you need to run the isValid() method
+//this needs to be executed after the encode method has been ran
+if (! $this->manager->isValid('invalid-hmac')) {
+    echo 'Failed!';
+} else {
+    echo 'Success!'
+}
