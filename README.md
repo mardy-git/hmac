@@ -60,11 +60,13 @@ try {
 
 $hmac = $this->manager->toArray();
 
-//[
+//these values need to be sent in the http headers of the request so they can
+//be received by the api and used to authenticated the request
+//$hmac = [
 //    'data' => 'test',
 //    'time' => 1396901689,
 //    'hmac' => 'f22081d5fcdc64e3ee78e79d235f67b2d1a54ba24be6da4ac537976d313e07cf119731e76585b9b22f789c6043efe1df133497483f559899db7d2f4398084b08',
-//]
+//];
 
 //to check if the hmac is valid you need to run the isValid() method
 //this needs to be executed after the encode method has been ran
