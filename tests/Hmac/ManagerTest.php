@@ -19,7 +19,7 @@ class ManagerTest extends PHPUnit_Framework_Testcase
                       ->time(1396901689)
                       ->key('1234');
 
-        $this->assertTrue($this->manager->encode()->isValid('f22081d5fcdc64e3ee78e79d235f67b2d1a54ba24be6da4ac537976d313e07cf119731e76585b9b22f789c6043efe1df133497483f559899db7d2f4398084b08'));
+        $this->assertTrue($this->manager->encode()->isValid('db02255882fecfdbb04c882ad598e8caa1956a27a98c02f84153ecb9b263ee75d1dadf3bd6d22d725793a27e04d041db5a93d83432d266600e1a366e5e42bee2'));
     }
 
     public function testEncodeAndNotValid()
@@ -66,7 +66,7 @@ class ManagerTest extends PHPUnit_Framework_Testcase
         $this->assertTrue(isset($hmac['data'], $hmac['hmac'], $hmac['time']));
 
         $this->assertSame($hmac['data'], 'test');
-        $this->assertSame($hmac['hmac'], 'f22081d5fcdc64e3ee78e79d235f67b2d1a54ba24be6da4ac537976d313e07cf119731e76585b9b22f789c6043efe1df133497483f559899db7d2f4398084b08');
+        $this->assertSame($hmac['hmac'], 'db02255882fecfdbb04c882ad598e8caa1956a27a98c02f84153ecb9b263ee75d1dadf3bd6d22d725793a27e04d041db5a93d83432d266600e1a366e5e42bee2');
         $this->assertSame($hmac['time'], 1396901689);
 
     }
