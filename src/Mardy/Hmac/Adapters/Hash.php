@@ -65,7 +65,7 @@ class Hash extends AbstractAdapter
     {
         $hash = $data;
         foreach (range(1, $iterations) as $i) {
-            $hash = hash($this->algorithm, $hash);
+            $hash = hash($this->algorithm, $hash . md5($i));
         }
 
         return $hash;
