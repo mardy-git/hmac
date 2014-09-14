@@ -12,7 +12,7 @@ Installation
 
 To install this use composer by adding
 
-    "mardy-git/hmac": "v2.*"
+    "mardy-git/hmac": "2.*"
 
 to your composer.json file
 
@@ -27,11 +27,11 @@ $manager = new Manager(new Hash);
 //you can use any of the Hash algorithms that are available on your environment
 $config = ['algorithm' => 'sha256'];
 
-//the private key used in both applications to ensure the hash is the same
+//the private key used in both applications to ensure the hash is the same (do not send this in the headers!!!)
 $key = "wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb";
 
 try {
-    $this->manager->config($config);
+    $manager->config($config);
 } catch (\InvalidArgumentException $e) {
     //an \InvalidArgumentException can be caught here
     //"The algorithm ({$algorithm}) selected is not available"
@@ -39,16 +39,16 @@ try {
 
 //time to live, when checking if the hmac isValid this will ensure
 //that the time with have to be with this number of seconds
-$this->manager->ttl(2);
+$manager->ttl(2);
 
 //the secure private key that will be stored locally and not sent in the http headers
-$this->manager->key('1234');
+$manager->key('1234');
 
 //the data to be encoded with the hmac, you could use the URI for this
-$this->manager->data('test');
+$manager->data('test');
 
 //the current timestamp, this will be compared in the other API to ensure
-$this->manager->time(time());
+$manager->time(time());
 
 //encodes the hmac if all the requirements have been met
 try {
@@ -58,7 +58,7 @@ try {
     //'The item is not encodable, make sure the key, time and data are set'
 }
 
-$hmac = $this->manager->toArray();
+$hmac = $manager->toArray();
 
 //these values need to be sent in the http headers of the request so they can
 //be received by the api and used to authenticated the request
@@ -70,7 +70,7 @@ $hmac = $this->manager->toArray();
 
 //to check if the hmac is valid you need to run the isValid() method
 //this needs to be executed after the encode method has been ran
-if (! $this->manager->isValid('invalid-hmac')) {
+if (! $manager->isValid('invalid-hmac')) {
     echo 'Failed!';
 } else {
     echo 'Success!'
