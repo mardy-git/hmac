@@ -2,6 +2,12 @@
 
 namespace Mardy\Hmac;
 
+/**
+ * Entity Class
+ *
+ * @package Mardy\Hmac
+ * @author Michael Bardsley @mic_bardsley
+ */
 class Entity
 {
     /**

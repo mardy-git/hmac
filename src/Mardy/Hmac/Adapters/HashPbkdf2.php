@@ -3,15 +3,15 @@
 namespace Mardy\Hmac\Adapters;
 
 /**
- * Hash Adapter
+ * HashPbkdf2 Adapter
  *
  * @package Mardy\Hmac\Adapters
  * @author Michael Bardsley @mic_bardsley
  */
-class Hash extends AbstractAdapter
+class HashPbkdf2 extends AbstractAdapter
 {
     /**
-     * Iterate and hash the data multiple times
+     * hash the data using the hash_pbkdf2 function with multiple iterations
      *
      * @param string $data the string of data that will be hashed
      * @param string $salt
@@ -20,19 +20,14 @@ class Hash extends AbstractAdapter
      */
     protected function hash($data, $salt = '', $iterations = 10)
     {
-        $hash = $data;
-        foreach (range(1, $iterations) as $i) {
-            $hash = hash($this->algorithm, $hash . md5($i) . $salt);
-        }
-
-        return $hash;
+        return hash_pbkdf2($this->algorithm, $data, $salt, $iterations);
     }
 
     /**
      * Sets the algorithm that will be used by the encoding process
      *
      * @param string $algorithm
-     * @return \Mardy\Hmac\Adapters\Hash
+     * @return \Mardy\Hmac\Adapters\HashPbkdf2
      * @throws \InvalidArgumentException
      */
     protected function setAlgorithm($algorithm)

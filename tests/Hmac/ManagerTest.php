@@ -5,6 +5,9 @@ use Mardy\Hmac\Adapters\Hash;
 
 class ManagerTest extends PHPUnit_Framework_Testcase
 {
+    /**
+     * @var \Mardy\Hmac\Manager
+     */
     protected $manager;
 
     public function setup()
@@ -19,7 +22,7 @@ class ManagerTest extends PHPUnit_Framework_Testcase
                       ->time(1396901689)
                       ->key('1234');
 
-        $this->assertTrue($this->manager->encode()->isValid('db02255882fecfdbb04c882ad598e8caa1956a27a98c02f84153ecb9b263ee75d1dadf3bd6d22d725793a27e04d041db5a93d83432d266600e1a366e5e42bee2'));
+        $this->assertTrue($this->manager->encode()->isValid('367aa96189a95b92dfd0ec8adb6f84cd37eb58e38745551361e561814c085f8197b54612a481eb9b25f2c3de23a0c836298623348b3e005d52facaaeaff3eb7d'));
     }
 
     public function testEncodeAndNotValid()
@@ -48,6 +51,19 @@ class ManagerTest extends PHPUnit_Framework_Testcase
         $this->manager->config(['algorithm' => 'invalid-algorithm']);
     }
 
+    public function testSetValidConfig()
+    {
+        $this->assertInstanceOf(
+            "Mardy\Hmac\Manager",
+            $this->manager->config([
+                'algorithm' => 'sha512',
+                'num-first-iterations' => 1,
+                'num-second-iterations' => 1,
+                'num-final-iterations' => 1,
+            ])
+        );
+    }
+
     public function testToArrayWithoutEncodeFalse()
     {
         $this->assertFalse($this->manager->toArray());
@@ -65,9 +81,8 @@ class ManagerTest extends PHPUnit_Framework_Testcase
 
         $this->assertTrue(isset($hmac['data'], $hmac['hmac'], $hmac['time']));
 
-        $this->assertSame($hmac['data'], 'test');
-        $this->assertSame($hmac['hmac'], 'db02255882fecfdbb04c882ad598e8caa1956a27a98c02f84153ecb9b263ee75d1dadf3bd6d22d725793a27e04d041db5a93d83432d266600e1a366e5e42bee2');
-        $this->assertSame($hmac['time'], 1396901689);
-
+        $this->assertSame('test', $hmac['data']);
+        $this->assertSame('367aa96189a95b92dfd0ec8adb6f84cd37eb58e38745551361e561814c085f8197b54612a481eb9b25f2c3de23a0c836298623348b3e005d52facaaeaff3eb7d', $hmac['hmac']);
+        $this->assertSame(1396901689, $hmac['time']);
     }
 }

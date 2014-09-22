@@ -4,6 +4,12 @@ namespace Mardy\Hmac\Adapters;
 
 use Mardy\Hmac\Entity;
 
+/**
+ * Adapter Interface
+ *
+ * @package Mardy\Hmac\Adapters
+ * @author Michael Bardsley @mic_bardsley
+ */
 interface AdapterInterface
 {
     /**

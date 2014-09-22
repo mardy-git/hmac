@@ -3,12 +3,12 @@
 namespace Mardy\Hmac\Adapters;
 
 /**
- * Hash Adapter
+ * HashHmac Adapter
  *
  * @package Mardy\Hmac\Adapters
  * @author Michael Bardsley @mic_bardsley
  */
-class Hash extends AbstractAdapter
+class HashHmac extends AbstractAdapter
 {
     /**
      * Iterate and hash the data multiple times
@@ -22,7 +22,7 @@ class Hash extends AbstractAdapter
     {
         $hash = $data;
         foreach (range(1, $iterations) as $i) {
-            $hash = hash($this->algorithm, $hash . md5($i) . $salt);
+            $hash = hash_hmac($this->algorithm, $hash, $salt . md5($i));
         }
 
         return $hash;
@@ -32,7 +32,7 @@ class Hash extends AbstractAdapter
      * Sets the algorithm that will be used by the encoding process
      *
      * @param string $algorithm
-     * @return \Mardy\Hmac\Adapters\Hash
+     * @return \Mardy\Hmac\Adapters\HashHmac
      * @throws \InvalidArgumentException
      */
     protected function setAlgorithm($algorithm)

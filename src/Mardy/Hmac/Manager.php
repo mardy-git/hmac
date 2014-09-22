@@ -2,23 +2,18 @@
 
 namespace Mardy\Hmac;
 
-use Mardy\Hmac\Adapters\AdapterInterface;
-use Mardy\Hmac\Entity;
-
 /**
  * Manager Class
  *
  * Manages all the HMAC checking for the application
  *
- * @package        mardy-git
- * @subpackage     Authentication
- * @category       HMAC
- * @author         Michael Bardsley <me@mic-b.co.uk>
+ * @package Mardy\Hmac
+ * @author Michael Bardsley @mic_bardsley
  */
 class Manager
 {
     /**
-     * @var \Mardy\Hmac\Adapter\AdapterInterface
+     * @var \Mardy\Hmac\Adapters\AdapterInterface
      */
     protected $adapter;
 
@@ -39,7 +34,7 @@ class Manager
      *
      * @param \Mardy\Hmac\Adapters\AdapterInterface $adapter
      */
-    public function __construct(AdapterInterface $adapter)
+    public function __construct(Adapters\AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
         $this->entity = new Entity;
@@ -101,6 +96,7 @@ class Manager
     /**
      * Checks the HMAC key to make sure it is valid
      *
+     * @param string $hmac
      * @return boolean
      */
     public function isValid($hmac)
@@ -131,7 +127,7 @@ class Manager
     /**
      * Returns the entity array or false if the hmac doesn't exist
      *
-     * @return type
+     * @return array
      */
     public function toArray()
     {
