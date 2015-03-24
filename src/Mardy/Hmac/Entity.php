@@ -57,7 +57,7 @@ class Entity
      */
     public function getHmac()
     {
-        return (string) $this->hmac;
+        return $this->hmac;
     }
 
     /**

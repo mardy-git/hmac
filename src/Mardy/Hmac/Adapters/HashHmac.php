@@ -27,22 +27,4 @@ class HashHmac extends AbstractAdapter
 
         return $hash;
     }
-
-    /**
-     * Sets the algorithm that will be used by the encoding process
-     *
-     * @param string $algorithm
-     * @return \Mardy\Hmac\Adapters\HashHmac
-     * @throws \InvalidArgumentException
-     */
-    protected function setAlgorithm($algorithm)
-    {
-        $algorithm = strtolower($algorithm);
-        if (! in_array($algorithm, hash_algos())) {
-            throw new \InvalidArgumentException("The algorithm ({$algorithm}) selected is not available");
-        }
-        $this->algorithm = $algorithm;
-
-        return $this;
-    }
 }
