@@ -57,7 +57,7 @@ class Entity
      */
     public function getHmac()
     {
-        return (string) $this->hmac;
+        return $this->hmac;
     }
 
     /**
@@ -74,7 +74,7 @@ class Entity
      * Sets the time
      *
      * @param int $time
-     * @return \Mardy\Hmac\Item
+     * @return Entity
      */
     public function setTime($time)
     {
@@ -87,7 +87,7 @@ class Entity
      * Sets the data
      *
      * @param string $data
-     * @return \Mardy\Hmac\Item
+     * @return Entity
      */
     public function setData($data)
     {
@@ -100,7 +100,7 @@ class Entity
      * Sets the HMAC
      *
      * @param string $hmac
-     * @return \Mardy\Hmac\Item
+     * @return Entity
      */
     public function setHmac($hmac)
     {
@@ -113,7 +113,7 @@ class Entity
      * Sets the key
      *
      * @param string $key
-     * @return \Mardy\Hmac\Item
+     * @return Entity
      */
     public function setKey($key)
     {
@@ -129,7 +129,7 @@ class Entity
      */
     public function isEncodable()
     {
-        if (empty($this->time) || empty($this->data) || empty($this->key)) {
+        if (!$this->time || !$this->data || !$this->key) {
             return false;
         }
 
@@ -143,7 +143,7 @@ class Entity
      */
     public function isEncoded()
     {
-        if (empty($this->hmac)) {
+        if (!$this->hmac) {
             return false;
         }
 

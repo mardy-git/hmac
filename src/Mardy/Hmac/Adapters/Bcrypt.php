@@ -39,7 +39,7 @@ class Bcrypt extends AbstractAdapter
      * Sets the algorithm that will be used by the encoding process
      *
      * @param string $algorithm
-     * @return \Mardy\Hmac\Adapters\Bcrypt
+     * @return Bcrypt
      * @throws \InvalidArgumentException
      */
     protected function setAlgorithm($algorithm)

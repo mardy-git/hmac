@@ -16,9 +16,9 @@ interface AdapterInterface
      * Sets the entity object
      *
      * @param \Mardy\Hmac\Entity $entity
-     * @return \Mardy\Hmac\Adapters\Hash
+     * @return Hash
      */
-    public function setEntity(Entity &$entity);
+    public function setEntity(Entity $entity);
 
     /**
      * Sets the adapter config options
@@ -28,11 +28,9 @@ interface AdapterInterface
     public function setConfig(array $config);
 
     /**
-     * Encodes the HMAC based on the values that have been entered using the hash() function
+     * Encodes the HMAC based on the chosen adapter
      *
-     * http://php.net/manual/en/function.hash.php
-     *
-     * @return string
+     * @return AdapterInterface
      */
     public function encode();
 }
