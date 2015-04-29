@@ -54,7 +54,7 @@ $manager->key($key);
 $manager->data('test');
 
 //the current timestamp, this will be compared in the other API to ensure
-$manager->time(time());
+$manager->time(microtime(true)); //use time() or micortime(true)
 
 //encodes the hmac if all the requirements have been met
 try {
@@ -129,4 +129,28 @@ if (! $manager->isValid($hmac['hmac'])) {
     http_response_code(401);
     echo 'Invalid credentials';
 }
+```
+
+Using with Guzzle
+-----------------
+
+Guzzle is a PHP HTTP client that makes it easy to send HTTP requests and trivial to integrate with web services.
+https://github.com/guzzle/guzzle
+
+There is now a plugin that will allow integration with guzzle 5.2+
+
+```
+use GuzzleHttp\Client;
+use GuzzleHttp\Event\BeforeEvent;
+use Mardy\Hmac\Plugin\HmacHeadersGuzzleEvent;
+use Mardy\Hmac\Adapters\Hash;
+
+$client = new Client;
+
+$client->getEmitter()->on('before', function (BeforeEvent $event) {
+    (new HmacHeadersGuzzleEvent(new Hash, '12345', '12345', microtime(true)))->onBefore($event);
+});
+
+$request = $client->createRequest('GET', 'http://www.google.com');
+$client->send($request);
 ```
