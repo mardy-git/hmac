@@ -137,18 +137,28 @@ Using with Guzzle
 Guzzle is a PHP HTTP client that makes it easy to send HTTP requests and trivial to integrate with web services.
 https://github.com/guzzle/guzzle
 
-There is now a plugin that will allow integration with guzzle 5.2+
+There is now a plugin that will allow integration with guzzle 4.0+
 
-```
+```php
 use GuzzleHttp\Client;
 use GuzzleHttp\Event\BeforeEvent;
 use Mardy\Hmac\Plugin\HmacHeadersGuzzleEvent;
 use Mardy\Hmac\Adapters\Hash;
 
+//Using the HmacHeadersGuzzleEvent class you can automatically inject some headers 
+//directly into the guzzle request. This is far more convenient for those of us 
+//using dependency injection containers and means we don't have to do it manually 
+//each time \o/
+
 $client = new Client;
 
 $client->getEmitter()->on('before', function (BeforeEvent $event) {
-    (new HmacHeadersGuzzleEvent(new Hash, '12345', '12345', microtime(true)))->onBefore($event);
+    (new HmacHeadersGuzzleEvent(
+        new Hash, 
+        '12345', 
+        '12345', 
+        microtime(true)
+    ))->onBefore($event);
 });
 
 $request = $client->createRequest('GET', 'http://www.google.com');

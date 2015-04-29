@@ -42,10 +42,22 @@ class HmacHeadersGuzzleEvent implements SubscriberInterface
      * @param string $key
      * @param string $data
      * @param null|int|float $time
+     * @param array $headerVarNames - default: ['hmac' => 'hmac', 'data' => 'data', 'time' => 'time']
      */
-    public function __construct(AdapterInterface $adapter, $key, $data, $time = null)
-    {
+    public function __construct(
+        AdapterInterface $adapter,
+        $key,
+        $data,
+        $time = null,
+        $headerVarNames = ['hmac' => 'hmac', 'data' => 'data', 'time' => 'time']
+    ) {
         !$time && $time = microtime(true);
+
+        if (!isset($headerVarNames['hmac'], $headerVarNames['data'], $headerVarNames['time'])) {
+            throw new \InvalidArgumentException(
+                'Incorrect header var names supplied: example: [\'hmac\' => \'hmac\', \'data\' => \'data\', \'time\' => \'time\']'
+            );
+        }
 
         $this->adapter = $adapter;
         $this->key = (string) $key;
