@@ -36,6 +36,11 @@ class HmacHeadersGuzzleEvent implements SubscriberInterface
     private $time;
 
     /**
+     * @var array
+     */
+    private $headerNames;
+
+    /**
      * Constructor
      *
      * @param AdapterInterface $adapter
@@ -49,13 +54,13 @@ class HmacHeadersGuzzleEvent implements SubscriberInterface
         $key,
         $data,
         $time = null,
-        $headerVarNames = ['hmac' => 'hmac', 'data' => 'data', 'time' => 'time']
+        array $headerVarNames = ['hmac' => 'hmac', 'data' => 'data', 'time' => 'time']
     ) {
         !$time && $time = microtime(true);
 
         if (!isset($headerVarNames['hmac'], $headerVarNames['data'], $headerVarNames['time'])) {
             throw new \InvalidArgumentException(
-                'Incorrect header var names supplied: example: [\'hmac\' => \'hmac\', \'data\' => \'data\', \'time\' => \'time\']'
+                "Incorrect header var names supplied: example: ['hmac' => 'hmac', 'data' => 'data', 'time' => 'time']"
             );
         }
 
@@ -63,6 +68,7 @@ class HmacHeadersGuzzleEvent implements SubscriberInterface
         $this->key = (string) $key;
         $this->data = (string) $data;
         $this->time = is_float($time) ? (float) $time : (int) $time;
+        $this->headerNames = $headerVarNames;
     }
 
     /**
@@ -90,9 +96,9 @@ class HmacHeadersGuzzleEvent implements SubscriberInterface
                 ->encode()
                 ->getHmac();
 
-            $event->getRequest()->setHeader('hmac', $hmac->getHmac());
-            $event->getRequest()->setHeader('data', $hmac->getData());
-            $event->getRequest()->setHeader('time', $hmac->getTime());
+            $event->getRequest()->setHeader($this->headerNames['hmac'], $hmac->getHmac());
+            $event->getRequest()->setHeader($this->headerNames['data'], $hmac->getData());
+            $event->getRequest()->setHeader($this->headerNames['time'], $hmac->getTime());
         }
     }
 }
