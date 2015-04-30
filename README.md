@@ -69,7 +69,7 @@ $hmac = $manager->toArray();
 //these values need to be sent in the http headers of the request so they can
 //be received by the api and used to authenticated the request
 //$hmac = [
-//    'data' => 'test',
+//    'data' => 'test-data', //perhaps the uri or other unique string related to the transaction
 //    'time' => 1396901689,
 //    'hmac' => 'f22081d5fcdc64e3ee78e79d235f67b2d1a54ba24be6da4ac537976d313e07cf119731e76585b9b22f789c6043efe1df133497483f559899db7d2f4398084b08',
 //];
@@ -155,8 +155,8 @@ $client = new Client;
 $client->getEmitter()->on('before', function (BeforeEvent $event) {
     (new HmacHeadersGuzzleEvent(
         new Hash, 
-        '12345', 
-        '12345', 
+        'wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb', 
+        'test-data', 
         microtime(true)
     ))->onBefore($event);
 });
