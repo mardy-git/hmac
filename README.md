@@ -137,7 +137,7 @@ Using with Guzzle
 Guzzle is a PHP HTTP client that makes it easy to send HTTP requests and trivial to integrate with web services.
 https://github.com/guzzle/guzzle
 
-There is now a plugin that will allow integration with guzzle 4.0+
+There is now a plugin that will allow integration with guzzle 4+
 
 ```php
 use GuzzleHttp\Client;
