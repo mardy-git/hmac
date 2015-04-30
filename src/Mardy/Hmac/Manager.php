@@ -115,13 +115,23 @@ class Manager
     /**
      * Encodes the HMAC and returns an array
      *
-     * @return array
+     * @return Manager
      */
     public function encode()
     {
         $this->adapter->encode();
 
         return $this;
+    }
+
+    /**
+     * Gets the HMAC entity object
+     *
+     * @return Entity
+     */
+    public function getHmac()
+    {
+        return $this->entity;
     }
 
     /**

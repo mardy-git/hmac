@@ -11,7 +11,7 @@ namespace Mardy\Hmac;
 class Entity
 {
     /**
-     * @var int
+     * @var int|float
      */
     protected $time = 0;
 
@@ -33,7 +33,7 @@ class Entity
     /**
      * Gets the time
      *
-     * @return int
+     * @return int|float
      */
     public function getTime()
     {
@@ -73,12 +73,12 @@ class Entity
     /**
      * Sets the time
      *
-     * @param int $time
+     * @param int|float $time - use time() or microtime(true)
      * @return Entity
      */
     public function setTime($time)
     {
-        $this->time = (int) $time;
+        $this->time = is_float($time) ? (float) $time : (int) $time;
 
         return $this;
     }
