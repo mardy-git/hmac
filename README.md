@@ -54,7 +54,7 @@ $manager->key($key);
 $manager->data('test');
 
 //the current timestamp, this will be compared in the other API to ensure
-$manager->time(time());
+$manager->time(microtime(true)); //use time() or micortime(true)
 
 //encodes the hmac if all the requirements have been met
 try {
@@ -69,7 +69,7 @@ $hmac = $manager->toArray();
 //these values need to be sent in the http headers of the request so they can
 //be received by the api and used to authenticated the request
 //$hmac = [
-//    'data' => 'test',
+//    'data' => 'test-data', //perhaps the uri or other unique string related to the transaction
 //    'time' => 1396901689,
 //    'hmac' => 'f22081d5fcdc64e3ee78e79d235f67b2d1a54ba24be6da4ac537976d313e07cf119731e76585b9b22f789c6043efe1df133497483f559899db7d2f4398084b08',
 //];
@@ -129,4 +129,38 @@ if (! $manager->isValid($hmac['hmac'])) {
     http_response_code(401);
     echo 'Invalid credentials';
 }
+```
+
+Using with Guzzle
+-----------------
+
+Guzzle is a PHP HTTP client that makes it easy to send HTTP requests and trivial to integrate with web services.
+https://github.com/guzzle/guzzle
+
+There is now a plugin that will allow integration with guzzle 4+
+
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\Event\BeforeEvent;
+use Mardy\Hmac\Plugin\HmacHeadersGuzzleEvent;
+use Mardy\Hmac\Adapters\Hash;
+
+//Using the HmacHeadersGuzzleEvent class you can automatically inject some headers 
+//directly into the guzzle request. This is far more convenient for those of us 
+//using dependency injection containers and means we don't have to do it manually 
+//each time \o/
+
+$client = new Client;
+
+$client->getEmitter()->on('before', function (BeforeEvent $event) {
+    (new HmacHeadersGuzzleEvent(
+        new Hash, 
+        'wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb', 
+        'test-data', 
+        microtime(true)
+    ))->onBefore($event);
+});
+
+$request = $client->createRequest('GET', 'http://www.google.com');
+$client->send($request);
 ```
