@@ -1,6 +1,6 @@
 Mardy-Git HMAC
 ==============
-[![Build Status](https://travis-ci.org/mardy-git/hmac.png?branch=dev)](https://travis-ci.org/mardy-git/hmac)
+[![Build Status](https://travis-ci.org/mardy-git/hmac.png?branch=master)](https://travis-ci.org/mardy-git/hmac)
 
 A simple lightweight HMAC generator and checker.
 
