@@ -45,7 +45,7 @@ class Manager
      * Sets the private key in the item
      *
      * @param string $key
-     * @return \Mardy\Hmac\Manager
+     * @return Manager
      */
     public function key($key)
     {
@@ -58,7 +58,7 @@ class Manager
      * Sets the time in the item
      *
      * @param int $time
-     * @return \Mardy\Hmac\Manager
+     * @return Manager
      */
     public function time($time)
     {
@@ -71,7 +71,7 @@ class Manager
      * Sets the data in the item
      *
      * @param string $data
-     * @return \Mardy\Hmac\Manager
+     * @return Manager
      */
     public function data($data)
     {
@@ -84,7 +84,7 @@ class Manager
      * Sets the adapter config
      *
      * @param array $config
-     * @return \Mardy\Hmac\Manager
+     * @return Manager
      */
     public function config(array $config)
     {
@@ -103,8 +103,8 @@ class Manager
     {
         $this->adapter->encode();
 
-        if (((time() - $this->entity->getTime()) >= $this->ttl && $this->ttl != 0) ||
-            ($hmac != $this->entity->getHmac())
+        if ((time() - $this->entity->getTime() >= $this->ttl && $this->ttl != 0)
+            || $hmac != $this->entity->getHmac()
         ) {
             return false;
         }
@@ -115,13 +115,23 @@ class Manager
     /**
      * Encodes the HMAC and returns an array
      *
-     * @return array
+     * @return Manager
      */
     public function encode()
     {
         $this->adapter->encode();
 
         return $this;
+    }
+
+    /**
+     * Gets the HMAC entity object
+     *
+     * @return Entity
+     */
+    public function getHmac()
+    {
+        return $this->entity;
     }
 
     /**
@@ -138,7 +148,7 @@ class Manager
      * Sets the Time To Live
      *
      * @param int $ttl
-     * @return \Mardy\Hmac\Manager
+     * @return Manager
      */
     public function ttl($ttl)
     {

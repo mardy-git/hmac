@@ -2,7 +2,6 @@
 
 namespace Mardy\Hmac\Adapters;
 
-use Mardy\Hmac\Adapters\AdapterInterface;
 use Mardy\Hmac\Entity;
 
 /**
@@ -13,6 +12,8 @@ use Mardy\Hmac\Entity;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
+    const ERROR_INVALID_ALGORITHM = 'The algorithm (%s) selected is not available';
+
     /**
      * The algorithm that will be used by the hash function, this is validated using the
      *
@@ -23,7 +24,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * The data that will be used in the hash, this will need to be sent with the HTTP request
      *
-     * @var \Mardy\Hmac\Entity
+     * @var Entity
      */
     protected $entity;
 
@@ -52,9 +53,9 @@ abstract class AbstractAdapter implements AdapterInterface
      * Sets the data that will be used in the hash
      *
      * @param \Mardy\Hmac\Entity $entity
-     * @return $this
+     * @return AbstractAdapter
      */
-    public function setEntity(Entity &$entity)
+    public function setEntity(Entity $entity)
     {
         $this->entity = $entity;
 
@@ -65,7 +66,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Sets the adapter config options
      *
      * @param array $config
-     * @return $this
+     * @return AbstractAdapter
      */
     public function setConfig(array $config)
     {
@@ -92,7 +93,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Encodes the HMAC based on the values that have been entered using the hash() function
      *
      * @throws \InvalidArgumentException
-     * @return string
+     * @return AbstractAdapter
      */
     public function encode()
     {
@@ -109,5 +110,39 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this;
     }
 
+    /**
+     * @param $data
+     * @param string $salt
+     * @param int $iterations
+     * @return mixed
+     */
     abstract protected function hash($data, $salt = '', $iterations = 10);
+
+    /**
+     * Set the algorithm
+     *
+     * @param string $algorithm
+     * @return AbstractAdapter
+     */
+    protected function setAlgorithm($algorithm)
+    {
+        $this->validateHashAlgorithm($algorithm);
+        $this->algorithm = (string) $algorithm;
+
+        return $this;
+    }
+
+    /**
+     * Validates the algorithm against the hash_algos() function
+     *
+     * @param string $algorithm
+     * @throws \InvalidArgumentException
+     */
+    protected function validateHashAlgorithm($algorithm)
+    {
+        $algorithm = strtolower($algorithm);
+        if (!in_array($algorithm, hash_algos())) {
+            throw new \InvalidArgumentException(sprintf(self::ERROR_INVALID_ALGORITHM, $algorithm));
+        }
+    }
 }

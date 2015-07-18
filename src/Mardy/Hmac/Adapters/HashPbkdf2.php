@@ -22,22 +22,4 @@ class HashPbkdf2 extends AbstractAdapter
     {
         return hash_pbkdf2($this->algorithm, $data, $salt, $iterations);
     }
-
-    /**
-     * Sets the algorithm that will be used by the encoding process
-     *
-     * @param string $algorithm
-     * @return \Mardy\Hmac\Adapters\HashPbkdf2
-     * @throws \InvalidArgumentException
-     */
-    protected function setAlgorithm($algorithm)
-    {
-        $algorithm = strtolower($algorithm);
-        if (! in_array($algorithm, hash_algos())) {
-            throw new \InvalidArgumentException("The algorithm ({$algorithm}) selected is not available");
-        }
-        $this->algorithm = $algorithm;
-
-        return $this;
-    }
 }
