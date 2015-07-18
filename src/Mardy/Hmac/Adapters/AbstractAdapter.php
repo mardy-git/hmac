@@ -23,7 +23,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * The data that will be used in the hash, this will need to be sent with the HTTP request
      *
-     * @var \Mardy\Hmac\Item
+     * @var \Mardy\Hmac\Entity
      */
     protected $entity;
 
