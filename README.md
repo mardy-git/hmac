@@ -11,7 +11,7 @@ Installation
 
 To install this use composer by adding
 
-    "mardy/hmac": "2.*"
+    "mardy-git/hmac": "2.*"
 
 to your composer.json file
 
