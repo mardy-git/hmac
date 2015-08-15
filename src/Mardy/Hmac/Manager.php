@@ -25,7 +25,7 @@ class Manager
     /**
      * Number of seconds the key will remain active for
      *
-     * @var int
+     * @var int|float
      */
     protected $ttl = 2;
 
@@ -147,12 +147,12 @@ class Manager
     /**
      * Sets the Time To Live
      *
-     * @param int $ttl
+     * @param int|float $ttl
      * @return Manager
      */
     public function ttl($ttl)
     {
-        $this->ttl = (int) $ttl;
+        $this->ttl = is_int($ttl) ? (int) $ttl : (float) $ttl;
 
         return $this;
     }

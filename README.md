@@ -23,6 +23,8 @@ Generating the HMAC
 ```php
 use Mardy\Hmac\Manager;
 use Mardy\Hmac\Adapters\Hash;
+use Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException;
+use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
 
 //there are several adapters available 'Bcrypt', 'Hash', 'HashHmac', 'HashPbkdf2'
 //you can inject any of them into the manager, they all share the same interface
@@ -38,12 +40,12 @@ $config = [
 ];
 
 //the private key used in both applications to ensure the hash is the same
-$key = "wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb";
+$key = 'wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb';
 
 try {
     $manager->config($config);
-} catch (\InvalidArgumentException $e) {
-    //an \InvalidArgumentException can be caught here
+} catch (HmacInvalidAlgorithmException $e) {
+    //an HmacInvalidAlgorithmException can be caught here
     //"The algorithm ({$algorithm}) selected is not available"
 }
 
@@ -59,8 +61,8 @@ $manager->time(microtime(true)); //use time() or micortime(true)
 //encodes the hmac if all the requirements have been met
 try {
     $manager->encode();
-} catch (\InvalidArgumentException $e) {
-    //an \InvalidArgumentException can be caught here
+} catch (HmacInvalidArgumentException $e) {
+    //an HmacInvalidArgumentException can be caught here
     //'The item is not encodable, make sure the key, time and data are set'
 }
 
@@ -80,6 +82,7 @@ Validating the HMAC
 ```php
 use Mardy\Hmac\Manager;
 use Mardy\Hmac\Adapters\Hash;
+use Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException;
 
 //there are several adapters available 'Bcrypt', 'Hash', 'HashHmac', 'HashPbkdf2'
 //you can inject any of them into the manager, they all share the same interface
@@ -95,13 +98,13 @@ $config = [
 ];
 
 //the private key used in both applications to ensure the hash is the same
-$key = "wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb";
+$key = 'wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb';
 $ttl = 2;
 
 try {
     $manager->config($config);
-} catch (\InvalidArgumentException $e) {
-    //an \InvalidArgumentException can be caught here
+} catch (HmacInvalidAlgorithmException $e) {
+    //an HmacInvalidAlgorithmException can be caught here
     //"The algorithm ({$algorithm}) selected is not available"
 }
 

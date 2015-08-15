@@ -1,6 +1,7 @@
 <?php
 
 namespace Mardy\Hmac\Adapters;
+use Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException;
 
 /**
  * Bcrypt Adapter
@@ -40,12 +41,12 @@ class Bcrypt extends AbstractAdapter
      *
      * @param string $algorithm
      * @return Bcrypt
-     * @throws \InvalidArgumentException
+     * @throws HmacInvalidAlgorithmException
      */
     protected function setAlgorithm($algorithm)
     {
         if ($algorithm !== PASSWORD_DEFAULT && $algorithm !== PASSWORD_BCRYPT) {
-            throw new \InvalidArgumentException("The algorithm selected is not available");
+            throw new HmacInvalidAlgorithmException("The algorithm selected is not available");
         }
         $this->algorithm = $algorithm;
 

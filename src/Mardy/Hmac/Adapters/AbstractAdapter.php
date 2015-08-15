@@ -3,6 +3,8 @@
 namespace Mardy\Hmac\Adapters;
 
 use Mardy\Hmac\Entity;
+use Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException;
+use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
 
 /**
  * Class AbstractAdapter
@@ -92,13 +94,13 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Encodes the HMAC based on the values that have been entered using the hash() function
      *
-     * @throws \InvalidArgumentException
+     * @throws HmacInvalidArgumentException
      * @return AbstractAdapter
      */
     public function encode()
     {
         if (! $this->entity->isEncodable()) {
-            throw new \InvalidArgumentException(
+            throw new HmacInvalidArgumentException(
                 'The item is not encodable, make sure the key, time and data are set'
             );
         }
@@ -136,13 +138,13 @@ abstract class AbstractAdapter implements AdapterInterface
      * Validates the algorithm against the hash_algos() function
      *
      * @param string $algorithm
-     * @throws \InvalidArgumentException
+     * @throws HmacInvalidAlgorithmException
      */
     protected function validateHashAlgorithm($algorithm)
     {
         $algorithm = strtolower($algorithm);
         if (!in_array($algorithm, hash_algos())) {
-            throw new \InvalidArgumentException(sprintf(self::ERROR_INVALID_ALGORITHM, $algorithm));
+            throw new HmacInvalidAlgorithmException(sprintf(self::ERROR_INVALID_ALGORITHM, $algorithm));
         }
     }
 }

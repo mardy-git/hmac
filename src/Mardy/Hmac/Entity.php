@@ -129,11 +129,7 @@ class Entity
      */
     public function isEncodable()
     {
-        if (!$this->time || !$this->data || !$this->key) {
-            return false;
-        }
-
-        return true;
+        return $this->time && $this->data && $this->key;
     }
 
     /**
@@ -143,11 +139,7 @@ class Entity
      */
     public function isEncoded()
     {
-        if (!$this->hmac) {
-            return false;
-        }
-
-        return true;
+        return (bool) $this->hmac;
     }
 
     /**

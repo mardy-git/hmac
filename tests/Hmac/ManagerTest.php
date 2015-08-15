@@ -36,7 +36,7 @@ class ManagerTest extends PHPUnit_Framework_Testcase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException Mardy\Hmac\Exceptions\HmacInvalidArgumentException
      */
     public function testEncodeWithNoParametersThrowException()
     {
@@ -44,7 +44,7 @@ class ManagerTest extends PHPUnit_Framework_Testcase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException
      */
     public function testInvalidAlgorithmException()
     {
@@ -54,7 +54,7 @@ class ManagerTest extends PHPUnit_Framework_Testcase
     public function testSetValidConfig()
     {
         $this->assertInstanceOf(
-            "Mardy\Hmac\Manager",
+            'Mardy\Hmac\Manager',
             $this->manager->config([
                 'algorithm' => 'sha512',
                 'num-first-iterations' => 1,
