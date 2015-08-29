@@ -46,7 +46,7 @@ class Bcrypt extends AbstractAdapter
     protected function setAlgorithm($algorithm)
     {
         if ($algorithm !== PASSWORD_DEFAULT && $algorithm !== PASSWORD_BCRYPT) {
-            throw new HmacInvalidAlgorithmException("The algorithm selected is not available");
+            throw new HmacInvalidAlgorithmException('The algorithm selected is not available');
         }
         $this->algorithm = $algorithm;
 

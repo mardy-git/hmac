@@ -77,6 +77,7 @@ class ManagerTest extends PHPUnit_Framework_Testcase
                       ->key('1234')
                       ->encode();
 
+        $this->assertInstanceOf('Mardy\Hmac\Entity', $this->manager->getHmac());
         $hmac = $this->manager->toArray();
 
         $this->assertTrue(isset($hmac['data'], $hmac['hmac'], $hmac['time']));
