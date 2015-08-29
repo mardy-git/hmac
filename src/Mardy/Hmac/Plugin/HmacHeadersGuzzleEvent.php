@@ -1,6 +1,6 @@
 <?php
 
-namespace Mardy\Hmac\Plugin;;
+namespace Mardy\Hmac\Plugin;
 
 use Mardy\Hmac\Manager;
 use Mardy\Hmac\Adapters\AdapterInterface;

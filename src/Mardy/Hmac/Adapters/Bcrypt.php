@@ -1,6 +1,7 @@
 <?php
 
 namespace Mardy\Hmac\Adapters;
+
 use Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException;
 
 /**
