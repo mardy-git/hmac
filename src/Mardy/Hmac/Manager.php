@@ -1,6 +1,8 @@
 <?php
 
 namespace Mardy\Hmac;
+use Mardy\Hmac\Exceptions\HmacInvalidHashException;
+use Mardy\Hmac\Exceptions\HmacRequestTimeoutException;
 
 /**
  * Manager Class
@@ -98,15 +100,20 @@ class Manager
      *
      * @param string $hmac
      * @return boolean
+     * @throws HmacRequestTimeoutException - when the request has timed out
+     * @throws HmacInvalidHashException - when the hashes do not match
      */
-    public function isValid($hmac)
+    public function valid($hmac)
     {
         $this->adapter->encode();
 
-        return !(
-            (time() - $this->entity->getTime() >= $this->ttl && $this->ttl != 0)
-            || $hmac != $this->entity->getHmac()
-        );
+        if (time() - $this->entity->getTime() >= $this->ttl && $this->ttl != 0) {
+            throw new HmacRequestTimeoutException('The request has timed out');
+        }
+
+        if ($hmac != $this->entity->getHmac()) {
+            throw new HmacInvalidHashException('The HMAC hashes does not match');
+        }
     }
 
     /**

@@ -22,17 +22,33 @@ class ManagerTest extends PHPUnit_Framework_Testcase
                       ->time(1396901689)
                       ->key('1234');
 
-        $this->assertTrue($this->manager->encode()->isValid('367aa96189a95b92dfd0ec8adb6f84cd37eb58e38745551361e561814c085f8197b54612a481eb9b25f2c3de23a0c836298623348b3e005d52facaaeaff3eb7d'));
+        $this->assertTrue($this->manager->encode()->valid('367aa96189a95b92dfd0ec8adb6f84cd37eb58e38745551361e561814c085f8197b54612a481eb9b25f2c3de23a0c836298623348b3e005d52facaaeaff3eb7d') == null);
     }
 
-    public function testEncodeAndNotValid()
+    /**
+     * @expectedException Mardy\Hmac\Exceptions\HmacRequestTimeoutException
+     */
+    public function testEncodeAndNotValidTimedOut()
+    {
+        $this->manager->ttl(1)
+            ->data('test')
+            ->time(1396901689)
+            ->key('1234');
+
+        $this->manager->encode()->valid('f22081d5fcdf64e3ee78e79d235f67b2d1a54ba24be6da4ac554976d313e07cf119731e76585b9b22f789c6043efe1ff133497483f559899db7d2f43258276b08');
+    }
+
+    /**
+     * @expectedException Mardy\Hmac\Exceptions\HmacInvalidHashException
+     */
+    public function testEncodeAndNotValidNonMatchingHashes()
     {
         $this->manager->ttl(0)
                       ->data('test')
                       ->time(1396901689)
                       ->key('1234');
 
-        $this->assertFalse($this->manager->encode()->isValid('f22081d5fcdf64e3ee78e79d235f67b2d1a54ba24be6da4ac554976d313e07cf119731e76585b9b22f789c6043efe1ff133497483f559899db7d2f43258276b08'));
+        $this->manager->encode()->valid('f22081d5fcdf64e3ee78e79d235f67b2d1a54ba24be6da4ac554976d313e07cf119731e76585b9b22f789c6043efe1ff133497483f559899db7d2f43258276b08');
     }
 
     /**
