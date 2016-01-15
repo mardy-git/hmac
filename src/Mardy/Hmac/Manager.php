@@ -103,13 +103,10 @@ class Manager
     {
         $this->adapter->encode();
 
-        if ((time() - $this->entity->getTime() >= $this->ttl && $this->ttl != 0)
+        return !(
+            (time() - $this->entity->getTime() >= $this->ttl && $this->ttl != 0)
             || $hmac != $this->entity->getHmac()
-        ) {
-            return false;
-        }
-
-        return true;
+        );
     }
 
     /**
