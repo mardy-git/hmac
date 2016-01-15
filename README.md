@@ -128,9 +128,14 @@ $manager->time($hmac['time']);
 
 //to check if the hmac is valid you need to run the isValid() method
 //this needs to be executed after the encode method has been ran
-if (! $manager->isValid($hmac['hmac'])) {
+try {
+    $manager->valid($hmac['hmac']);
+} catch (HmacRequestTimeoutException $e) {
+    http_response_code(408);
+    echo $e->getMessage();
+} catch (HmacInvalidHashException $e) {
     http_response_code(401);
-    echo 'Invalid credentials';
+    echo $e->getMessage();
 }
 ```
 

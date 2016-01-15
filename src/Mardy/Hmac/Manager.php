@@ -99,13 +99,12 @@ class Manager
      * Checks the HMAC key to make sure it is valid
      *
      * @param string $hmac
-     * @return boolean
      * @throws HmacRequestTimeoutException - when the request has timed out
      * @throws HmacInvalidHashException - when the hashes do not match
      */
     public function valid($hmac)
     {
-        $this->adapter->encode();
+        $this->encode();
 
         if (time() - $this->entity->getTime() >= $this->ttl && $this->ttl != 0) {
             throw new HmacRequestTimeoutException('The request has timed out');
