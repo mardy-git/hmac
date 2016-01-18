@@ -5,12 +5,12 @@ namespace Mardy\Hmac;
 use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
 
 /**
- * Entity Class
+ * HashDataHandler Class
  *
  * @package Mardy\Hmac
  * @author Michael Bardsley @mic_bardsley
  */
-class Entity
+class HashDataHandler
 {
     /**
      * @var int|float
@@ -76,7 +76,7 @@ class Entity
      * Sets the time
      *
      * @param int|float $time - use time() or microtime(true)
-     * @return Entity
+     * @return HashDataHandler
      */
     public function setTime($time)
     {
@@ -93,7 +93,7 @@ class Entity
      * Sets the data
      *
      * @param string $data
-     * @return Entity
+     * @return HashDataHandler
      */
     public function setData($data)
     {
@@ -110,7 +110,7 @@ class Entity
      * Sets the HMAC
      *
      * @param string $hmac
-     * @return Entity
+     * @return HashDataHandler
      */
     public function setHmac($hmac)
     {
@@ -127,7 +127,7 @@ class Entity
      * Sets the key
      *
      * @param string $key
-     * @return Entity
+     * @return HashDataHandler
      */
     public function setKey($key)
     {

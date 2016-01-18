@@ -2,7 +2,7 @@
 
 namespace Mardy\Hmac\Adapters;
 
-use Mardy\Hmac\Entity;
+use Mardy\Hmac\HashDataHandler;
 use Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException;
 use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
 
@@ -26,9 +26,9 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * The data that will be used in the hash, this will need to be sent with the HTTP request
      *
-     * @var Entity
+     * @var HashDataHandler
      */
-    protected $entity;
+    protected $hashDataHandler;
 
     /**
      * The cost that will be applied to the hashing algorithm
@@ -40,12 +40,12 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Sets the data that will be used in the hash
      *
-     * @param \Mardy\Hmac\Entity $entity
+     * @param \Mardy\Hmac\HashDataHandler $hashDataHandler
      * @return AbstractAdapter
      */
-    public function setEntity(Entity $entity)
+    public function setHashDataHandler(HashDataHandler $hashDataHandler)
     {
-        $this->entity = $entity;
+        $this->hashDataHandler = $hashDataHandler;
 
         return $this;
     }
@@ -77,16 +77,16 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function encode()
     {
-        if (!$this->entity->isEncodable()) {
+        if (!$this->hashDataHandler->isEncodable()) {
             throw new HmacInvalidArgumentException(
                 'The HMAC is not encodable, make sure the key, time and data are set'
             );
         }
 
-        $this->entity->setHmac(
+        $this->hashDataHandler->setHmac(
             $this->hash(
-                $this->hash($this->entity->getData(), $this->entity->getTime(), $this->cost),
-                $this->hash($this->entity->getKey(), '', $this->cost),
+                $this->hash($this->hashDataHandler->getData(), $this->hashDataHandler->getTime(), $this->cost),
+                $this->hash($this->hashDataHandler->getKey(), '', $this->cost),
                 $this->cost
             )
         );

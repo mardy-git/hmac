@@ -2,7 +2,7 @@
 
 namespace Mardy\Hmac\Adapters;
 
-use Mardy\Hmac\Entity;
+use Mardy\Hmac\HashDataHandler;
 
 /**
  * Adapter Interface
@@ -15,10 +15,10 @@ interface AdapterInterface
     /**
      * Sets the entity object
      *
-     * @param \Mardy\Hmac\Entity $entity
+     * @param \Mardy\Hmac\HashDataHandler $hashDataHandler
      * @return Hash
      */
-    public function setEntity(Entity $entity);
+    public function setHashDataHandler(HashDataHandler $hashDataHandler);
 
     /**
      * Sets the adapter config options

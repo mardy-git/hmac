@@ -1,17 +1,17 @@
 <?php
 
-use Mardy\Hmac\Entity;
+use Mardy\Hmac\HashDataHandler;
 
 class EntityTest extends PHPUnit_Framework_Testcase
 {
     /**
-     * @var \Mardy\Hmac\Entity
+     * @var \Mardy\Hmac\HashDataHandler
      */
     protected $entity;
 
     public function setup()
     {
-        $this->entity = new Entity;
+        $this->entity = new HashDataHandler;
     }
 
     /**

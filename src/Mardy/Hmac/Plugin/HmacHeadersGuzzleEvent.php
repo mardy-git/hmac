@@ -2,7 +2,7 @@
 
 namespace Mardy\Hmac\Plugin;
 
-use Mardy\Hmac\Manager;
+use Mardy\Hmac\HashManager;
 use Mardy\Hmac\Adapters\AdapterInterface;
 use GuzzleHttp\Event\BeforeEvent;
 use GuzzleHttp\Event\SubscriberInterface;
@@ -89,7 +89,7 @@ class HmacHeadersGuzzleEvent implements SubscriberInterface
     public function onBefore(BeforeEvent $event)
     {
         if ($event !== null && $event->getRequest() !== null) {
-            $hmac = (new Manager($this->adapter))
+            $hmac = (new HashManager($this->adapter))
                 ->key($this->key)
                 ->data($this->data)
                 ->time($this->time)

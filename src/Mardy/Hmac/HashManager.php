@@ -6,14 +6,14 @@ use Mardy\Hmac\Exceptions\HmacInvalidHashException;
 use Mardy\Hmac\Exceptions\HmacRequestTimeoutException;
 
 /**
- * Manager Class
+ * HashManager Class
  *
  * Manages all the HMAC checking for the application
  *
  * @package Mardy\Hmac
  * @author Michael Bardsley @mic_bardsley
  */
-class Manager
+class HashManager
 {
     /**
      * @var \Mardy\Hmac\Adapters\AdapterInterface
@@ -21,9 +21,9 @@ class Manager
     protected $adapter;
 
     /**
-     * @var \Mardy\Hmac\Entity
+     * @var \Mardy\Hmac\HashDataHandler
      */
-    protected $entity;
+    protected $hashDataHandler;
 
     /**
      * Number of seconds the key will remain active for
@@ -40,19 +40,19 @@ class Manager
     public function __construct(Adapters\AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
-        $this->entity = new Entity;
-        $this->adapter->setEntity($this->entity);
+        $this->hashDataHandler = new HashDataHandler;
+        $this->adapter->setHashDataHandler($this->hashDataHandler);
     }
 
     /**
      * Sets the private key in the item
      *
      * @param string $key
-     * @return Manager
+     * @return HashManager
      */
     public function key($key)
     {
-        $this->entity->setKey($key);
+        $this->hashDataHandler->setKey($key);
 
         return $this;
     }
@@ -61,11 +61,11 @@ class Manager
      * Sets the time in the item
      *
      * @param int $time
-     * @return Manager
+     * @return HashManager
      */
     public function time($time)
     {
-        $this->entity->setTime($time);
+        $this->hashDataHandler->setTime($time);
 
         return $this;
     }
@@ -74,11 +74,11 @@ class Manager
      * Sets the data in the item
      *
      * @param string $data
-     * @return Manager
+     * @return HashManager
      */
     public function data($data)
     {
-        $this->entity->setData($data);
+        $this->hashDataHandler->setData($data);
 
         return $this;
     }
@@ -87,7 +87,7 @@ class Manager
      * Sets the adapter config
      *
      * @param array $config
-     * @return Manager
+     * @return HashManager
      */
     public function config(array $config)
     {
@@ -107,11 +107,11 @@ class Manager
     {
         $this->encode();
 
-        if (time() - $this->entity->getTime() >= $this->ttl && $this->ttl != 0) {
+        if (time() - $this->hashDataHandler->getTime() >= $this->ttl && $this->ttl != 0) {
             throw new HmacRequestTimeoutException('The request has timed out');
         }
 
-        if ($hmac != $this->entity->getHmac()) {
+        if ($hmac != $this->hashDataHandler->getHmac()) {
             throw new HmacInvalidHashException('The generated hashes does not match');
         }
     }
@@ -119,7 +119,7 @@ class Manager
     /**
      * Encodes the HMAC and returns an array
      *
-     * @return Manager
+     * @return HashManager
      */
     public function encode()
     {
@@ -131,11 +131,11 @@ class Manager
     /**
      * Gets the HMAC entity object
      *
-     * @return Entity
+     * @return HashDataHandler
      */
     public function getHmac()
     {
-        return $this->entity;
+        return $this->hashDataHandler;
     }
 
     /**
@@ -145,14 +145,14 @@ class Manager
      */
     public function toArray()
     {
-        return $this->entity->toArray();
+        return $this->hashDataHandler->toArray();
     }
 
     /**
      * Sets the Time To Live
      *
      * @param int|float $ttl
-     * @return Manager
+     * @return HashManager
      */
     public function ttl($ttl)
     {

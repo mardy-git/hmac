@@ -1,6 +1,6 @@
 <?php
 
-use Mardy\Hmac\Entity;
+use Mardy\Hmac\HashDataHandler;
 
 abstract class BaseAdapterTest extends PHPUnit_Framework_Testcase
 {
@@ -10,7 +10,7 @@ abstract class BaseAdapterTest extends PHPUnit_Framework_Testcase
 
     protected function mockEntity()
     {
-        $entity = new Entity;
+        $entity = new HashDataHandler;
 
         return $entity;
     }

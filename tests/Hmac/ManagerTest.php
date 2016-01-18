@@ -1,18 +1,18 @@
 <?php
 
-use Mardy\Hmac\Manager;
+use Mardy\Hmac\HashManager;
 use Mardy\Hmac\Adapters\Hash;
 
 class ManagerTest extends PHPUnit_Framework_Testcase
 {
     /**
-     * @var \Mardy\Hmac\Manager
+     * @var \Mardy\Hmac\HashManager
      */
     protected $manager;
 
     public function setup()
     {
-        $this->manager = new Manager(new Hash);
+        $this->manager = new HashManager(new Hash);
     }
 
     public function testEncodeAndIsValid()
