@@ -111,7 +111,7 @@ class Manager
         }
 
         if ($hmac != $this->entity->getHmac()) {
-            throw new HmacInvalidHashException('The HMAC hashes does not match');
+            throw new HmacInvalidHashException('The generated hashes does not match');
         }
     }
 

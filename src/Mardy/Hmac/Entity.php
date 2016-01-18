@@ -1,6 +1,7 @@
 <?php
 
 namespace Mardy\Hmac;
+use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
 
 /**
  * Entity Class
@@ -78,6 +79,10 @@ class Entity
      */
     public function setTime($time)
     {
+        if (!filter_var($time, FILTER_VALIDATE_INT) && !filter_var($time, FILTER_VALIDATE_FLOAT)) {
+            throw new HmacInvalidArgumentException('The time is not a valid int or float');
+        }
+
         $this->time = is_float($time) ? (float) $time : (int) $time;
 
         return $this;
@@ -91,6 +96,10 @@ class Entity
      */
     public function setData($data)
     {
+        if (!is_string($data)) {
+            throw new HmacInvalidArgumentException('The data is not a valid string');
+        }
+
         $this->data = (string) $data;
 
         return $this;
@@ -104,6 +113,10 @@ class Entity
      */
     public function setHmac($hmac)
     {
+        if (!is_string($hmac)) {
+            throw new HmacInvalidArgumentException('The HMAC is not a valid string');
+        }
+
         $this->hmac = (string) $hmac;
 
         return $this;
@@ -117,6 +130,10 @@ class Entity
      */
     public function setKey($key)
     {
+        if (!is_string($key)) {
+            throw new HmacInvalidArgumentException('The key is not a valid string');
+        }
+
         $this->key = (string) $key;
 
         return $this;

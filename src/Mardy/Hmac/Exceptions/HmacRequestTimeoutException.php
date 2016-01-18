@@ -2,6 +2,6 @@
 
 namespace Mardy\Hmac\Exceptions;
 
-class HmacRequestTimeoutException extends \InvalidArgumentException
+class HmacRequestTimeoutException extends HmacException
 {
 }

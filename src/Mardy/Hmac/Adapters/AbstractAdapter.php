@@ -31,25 +31,11 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $entity;
 
     /**
-     * The number of times the first hash will be iterated
+     * The cost that will be applied to the hashing algorithm
      *
      * @var int
      */
-    protected $noFirstHashIterations = 10;
-
-    /**
-     * The number of times the second hash will be iterated
-     *
-     * @var int
-     */
-    protected $noSecondHashIterations = 10;
-
-    /**
-     * The number of times the final hash will be iterated
-     *
-     * @var int
-     */
-    protected $noFinalHashIterations = 100;
+    protected $cost = 10;
 
     /**
      * Sets the data that will be used in the hash
@@ -76,16 +62,8 @@ abstract class AbstractAdapter implements AdapterInterface
             $this->setAlgorithm($config['algorithm']);
         }
 
-        if (isset($config['num-first-iterations'])) {
-            $this->noFirstHashIterations = $config['num-first-iterations'];
-        }
-
-        if (isset($config['num-second-iterations'])) {
-            $this->noSecondHashIterations = $config['num-second-iterations'];
-        }
-
-        if (isset($config['num-final-iterations'])) {
-            $this->noFinalHashIterations = $config['num-final-iterations'];
+        if (isset($config['cost'])) {
+            $this->cost = $config['cost'];
         }
 
         return $this;
@@ -99,15 +77,19 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function encode()
     {
-        if (! $this->entity->isEncodable()) {
+        if (!$this->entity->isEncodable()) {
             throw new HmacInvalidArgumentException(
-                'The item is not encodable, make sure the key, time and data are set'
+                'The HMAC is not encodable, make sure the key, time and data are set'
             );
         }
 
-        $firstHash = $this->hash($this->entity->getData(), $this->entity->getTime(), $this->noFirstHashIterations);
-        $secondHash = $this->hash($this->entity->getKey(), '', $this->noSecondHashIterations);
-        $this->entity->setHmac($this->hash($firstHash, $secondHash, $this->noFinalHashIterations));
+        $this->entity->setHmac(
+            $this->hash(
+                $this->hash($this->entity->getData(), $this->entity->getTime(), $this->cost),
+                $this->hash($this->entity->getKey(), '', $this->cost),
+                $this->cost
+            )
+        );
 
         return $this;
     }
