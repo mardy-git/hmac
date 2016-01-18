@@ -133,7 +133,7 @@ class HashManager
      *
      * @return HashDataHandler
      */
-    public function getHmac()
+    public function getHashDataHandler()
     {
         return $this->hashDataHandler;
     }

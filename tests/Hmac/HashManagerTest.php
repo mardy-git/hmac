@@ -3,7 +3,7 @@
 use Mardy\Hmac\HashManager;
 use Mardy\Hmac\Adapters\Hash;
 
-class ManagerTest extends PHPUnit_Framework_Testcase
+class HashManagerTest extends \PHPUnit_Framework_Testcase
 {
     /**
      * @var \Mardy\Hmac\HashManager
@@ -93,7 +93,7 @@ class ManagerTest extends PHPUnit_Framework_Testcase
                       ->key('1234')
                       ->encode();
 
-        $this->assertInstanceOf('Mardy\Hmac\Entity', $this->manager->getHmac());
+        $this->assertInstanceOf('Mardy\Hmac\HashDataHandler', $this->manager->getHashDataHandler());
         $hmac = $this->manager->toArray();
 
         $this->assertTrue(isset($hmac['data'], $hmac['hmac'], $hmac['time']));

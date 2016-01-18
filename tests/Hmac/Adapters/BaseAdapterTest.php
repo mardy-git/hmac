@@ -2,22 +2,23 @@
 
 use Mardy\Hmac\HashDataHandler;
 
-abstract class BaseAdapterTest extends PHPUnit_Framework_Testcase
+abstract class BaseAdapterTest extends \PHPUnit_Framework_Testcase
 {
     const KEY = 'wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb';
 
     protected $adapter;
 
-    protected function mockEntity()
+    /**
+     * @return HashDataHandler
+     */
+    protected function mockHashDataHandler()
     {
-        $entity = new HashDataHandler;
-
-        return $entity;
+        return new HashDataHandler;
     }
 
     public function testSetEntity()
     {
-        $this->assertInstanceOf(get_class($this->adapter), $this->adapter->setEntity($this->mockEntity()));
+        $this->assertInstanceOf(get_class($this->adapter), $this->adapter->setHashDataHandler($this->mockHashDataHandler()));
     }
 
     public function testSetAlgorithmWithInvalidAlgorithmExpectsHmacInvalidAlgorithmException()
@@ -57,9 +58,9 @@ abstract class BaseAdapterTest extends PHPUnit_Framework_Testcase
             'The item is not encodable, make sure the key, time and data are set'
         );
 
-        $entity = $this->mockEntity();
+        $entity = $this->mockHashDataHandler();
 
-        $this->adapter->setEntity($entity);
+        $this->adapter->setHashDataHandler($entity);
         $this->adapter->encode();
     }
 
@@ -68,18 +69,18 @@ abstract class BaseAdapterTest extends PHPUnit_Framework_Testcase
      */
     public function testEncode($key, $data, $time, $hmac)
     {
-        $entity = $this->mockEntity();
+        $hashDataHandler = $this->mockHashDataHandler();
 
-        $entity->setKey($key);
-        $entity->setData($data);
-        $entity->setTime($time);
+        $hashDataHandler->setKey($key);
+        $hashDataHandler->setData($data);
+        $hashDataHandler->setTime($time);
 
-        $this->adapter->setEntity($entity);
+        $this->adapter->setHashDataHandler($hashDataHandler);
 
         $response = $this->adapter->encode();
 
         $this->assertInstanceOf(get_class($this->adapter), $response);
-        $this->assertTrue($entity->isEncoded());
-        $this->assertSame($hmac, $entity->getHmac());
+        $this->assertTrue($hashDataHandler->isEncoded());
+        $this->assertSame($hmac, $hashDataHandler->getHmac());
     }
 }
