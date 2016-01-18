@@ -6,6 +6,11 @@ A simple lightweight HMAC generator and checker.
 
 Currently this is used to authenticate applications to other applications.
 
+NOTE
+----
+At the moment the Bcrypt adapter is broken on PHP 7. This is due to the changes in the password_hash function. 
+I will be working on a fix for this in v3 which will come out soon.
+
 Installation
 --------------
 
