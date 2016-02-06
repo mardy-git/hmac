@@ -1,7 +1,7 @@
 <?php
 
 use Mardy\Hmac\HashManager;
-use Mardy\Hmac\Adapters\Hash;
+use Mardy\Hmac\Strategy\Hash;
 
 class HashManagerTest extends \PHPUnit_Framework_Testcase
 {
@@ -17,12 +17,14 @@ class HashManagerTest extends \PHPUnit_Framework_Testcase
 
     public function testEncodeAndIsValid()
     {
+
         $this->manager->ttl(0)
                       ->data('test')
                       ->time(1396901689)
                       ->key('1234');
 
-        $this->assertTrue($this->manager->encode()->valid('367aa96189a95b92dfd0ec8adb6f84cd37eb58e38745551361e561814c085f8197b54612a481eb9b25f2c3de23a0c836298623348b3e005d52facaaeaff3eb7d') == null);
+        $this->assertTrue($this->manager->encode()->valid('b72ef195af1901de1d52ecbc02104dc53642d579345a9899d9535385a3791de237c323110342d124dedc83a63b596ed43bbcd7eddf5c5f4fe0626bd7021516b5') == null);
+
     }
 
     /**
@@ -70,7 +72,7 @@ class HashManagerTest extends \PHPUnit_Framework_Testcase
     public function testSetValidConfig()
     {
         $this->assertInstanceOf(
-            'Mardy\Hmac\Manager',
+            'Mardy\Hmac\HashManager',
             $this->manager->config([
                 'algorithm' => 'sha512',
                 'num-first-iterations' => 1,
@@ -99,7 +101,7 @@ class HashManagerTest extends \PHPUnit_Framework_Testcase
         $this->assertTrue(isset($hmac['data'], $hmac['hmac'], $hmac['time']));
 
         $this->assertSame('test', $hmac['data']);
-        $this->assertSame('367aa96189a95b92dfd0ec8adb6f84cd37eb58e38745551361e561814c085f8197b54612a481eb9b25f2c3de23a0c836298623348b3e005d52facaaeaff3eb7d', $hmac['hmac']);
+        $this->assertSame('b72ef195af1901de1d52ecbc02104dc53642d579345a9899d9535385a3791de237c323110342d124dedc83a63b596ed43bbcd7eddf5c5f4fe0626bd7021516b5', $hmac['hmac']);
         $this->assertSame(1396901689, $hmac['time']);
     }
 }

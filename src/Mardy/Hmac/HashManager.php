@@ -16,9 +16,9 @@ use Mardy\Hmac\Exceptions\HmacRequestTimeoutException;
 class HashManager
 {
     /**
-     * @var \Mardy\Hmac\Adapters\AdapterInterface
+     * @var \Mardy\Hmac\Strategy\StrategyInterface
      */
-    protected $adapter;
+    protected $strategy;
 
     /**
      * @var \Mardy\Hmac\HashDataHandler
@@ -35,13 +35,13 @@ class HashManager
     /**
      * Constructor
      *
-     * @param \Mardy\Hmac\Adapters\AdapterInterface $adapter
+     * @param \Mardy\Hmac\Strategy\StrategyInterface $strategy
      */
-    public function __construct(Adapters\AdapterInterface $adapter)
+    public function __construct(Strategy\StrategyInterface $strategy)
     {
-        $this->adapter = $adapter;
+        $this->strategy = $strategy;
         $this->hashDataHandler = new HashDataHandler;
-        $this->adapter->setHashDataHandler($this->hashDataHandler);
+        $this->strategy->setHashDataHandler($this->hashDataHandler);
     }
 
     /**
@@ -91,7 +91,7 @@ class HashManager
      */
     public function config(array $config)
     {
-        $this->adapter->setConfig($config);
+        $this->strategy->setConfig($config);
 
         return $this;
     }
@@ -123,7 +123,7 @@ class HashManager
      */
     public function encode()
     {
-        $this->adapter->encode();
+        $this->strategy->encode();
 
         return $this;
     }

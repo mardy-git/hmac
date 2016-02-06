@@ -1,11 +1,17 @@
 <?php
 
-use Mardy\Hmac\Adapters\Bcrypt;
+use Mardy\Hmac\Strategy\Bcrypt;
 
-class BcryptTest extends BaseAdapterTest
+class BcryptTest extends BaseStrategyTest
 {
     public function setup()
     {
+        if (!function_exists('password_hash')) {
+            $this->markTestSkipped(
+                'The password_hash extension is not available.'
+            );
+        }
+
         $this->adapter = new Bcrypt;
     }
 

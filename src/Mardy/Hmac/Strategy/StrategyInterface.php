@@ -1,16 +1,16 @@
 <?php
 
-namespace Mardy\Hmac\Adapters;
+namespace Mardy\Hmac\Strategy;
 
 use Mardy\Hmac\HashDataHandler;
 
 /**
- * Adapter Interface
+ * Strategy Interface
  *
- * @package Mardy\Hmac\Adapters
+ * @package Mardy\Hmac\Strategy
  * @author Michael Bardsley @mic_bardsley
  */
-interface AdapterInterface
+interface StrategyInterface
 {
     /**
      * Sets the entity object
@@ -21,16 +21,16 @@ interface AdapterInterface
     public function setHashDataHandler(HashDataHandler $hashDataHandler);
 
     /**
-     * Sets the adapter config options
+     * Sets the Strategy config options
      *
      * @param array $config
      */
     public function setConfig(array $config);
 
     /**
-     * Encodes the HMAC based on the chosen adapter
+     * Encodes the HMAC based on the chosen Strategy
      *
-     * @return AdapterInterface
+     * @return StrategyInterface
      */
     public function encode();
 }

@@ -2,7 +2,7 @@
 
 use Mardy\Hmac\HashDataHandler;
 
-abstract class BaseAdapterTest extends \PHPUnit_Framework_Testcase
+abstract class BaseStrategyTest extends \PHPUnit_Framework_Testcase
 {
     const KEY = 'wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb';
 
@@ -45,9 +45,7 @@ abstract class BaseAdapterTest extends \PHPUnit_Framework_Testcase
     {
         return [
             [['algorithm' => 'sha512']],
-            [['num-first-iterations' => 10]],
-            [['num-second-iterations' => 20]],
-            [['num-final-iterations' => 30]],
+            [['cost' => 10]],
         ];
     }
 
@@ -55,7 +53,7 @@ abstract class BaseAdapterTest extends \PHPUnit_Framework_Testcase
     {
         $this->setExpectedException(
             'Mardy\Hmac\Exceptions\HmacInvalidArgumentException',
-            'The item is not encodable, make sure the key, time and data are set'
+            'The HMAC is not encodable, make sure the key, time and data are set'
         );
 
         $entity = $this->mockHashDataHandler();

@@ -1,18 +1,18 @@
 <?php
 
-namespace Mardy\Hmac\Adapters;
+namespace Mardy\Hmac\Strategy;
 
 use Mardy\Hmac\HashDataHandler;
 use Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException;
 use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
 
 /**
- * Class AbstractAdapter
+ * Class AbstractStrategy
  *
- * @package Mardy\Hmac\Adapters
+ * @package Mardy\Hmac\Strategy
  * @author Michael Bardsley @mic_bardsley
  */
-abstract class AbstractAdapter implements AdapterInterface
+abstract class AbstractStrategy implements StrategyInterface
 {
     const ERROR_INVALID_ALGORITHM = 'The algorithm (%s) selected is not available';
 
@@ -41,7 +41,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Sets the data that will be used in the hash
      *
      * @param \Mardy\Hmac\HashDataHandler $hashDataHandler
-     * @return AbstractAdapter
+     * @return AbstractStrategy
      */
     public function setHashDataHandler(HashDataHandler $hashDataHandler)
     {
@@ -51,10 +51,10 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Sets the adapter config options
+     * Sets the Strategy config options
      *
      * @param array $config
-     * @return AbstractAdapter
+     * @return AbstractStrategy
      */
     public function setConfig(array $config)
     {
@@ -73,7 +73,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * Encodes the HMAC based on the values that have been entered using the hash() function
      *
      * @throws HmacInvalidArgumentException
-     * @return AbstractAdapter
+     * @return AbstractStrategy
      */
     public function encode()
     {
@@ -97,16 +97,16 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * @param $data
      * @param string $salt
-     * @param int $iterations
+     * @param int $cost
      * @return mixed
      */
-    abstract protected function hash($data, $salt = '', $iterations = 10);
+    abstract protected function hash($data, $salt = '', $cost = 10);
 
     /**
      * Set the algorithm
      *
      * @param string $algorithm
-     * @return AbstractAdapter
+     * @return AbstractStrategy
      */
     protected function setAlgorithm($algorithm)
     {
