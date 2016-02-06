@@ -2,6 +2,10 @@
 
 use Mardy\Hmac\Strategy\Bcrypt;
 
+if (!defined('PASSWORD_DEFAULT')) {
+    define('PASSWORD_DEFAULT', '');
+}
+
 class BcryptTest extends BaseStrategyTest
 {
     public function setup()
