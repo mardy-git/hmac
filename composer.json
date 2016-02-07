@@ -20,8 +20,8 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Mardy\\Hmac": "src/"
+        "psr-4": {
+            "Mardy\\Hmac\\": "src/"
         }
     },
     "minimum-stability": "dev"
