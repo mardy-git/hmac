@@ -1,8 +1,8 @@
 <?php
 
-use Mardy\Hmac\Strategy\Hash;
+use Mardy\Hmac\Strategy\HashStrategy;
 
-class HashTest extends BaseStrategyTest
+class HashStrategyTest extends BaseStrategyTest
 {
     public function setup()
     {
@@ -12,7 +12,7 @@ class HashTest extends BaseStrategyTest
             );
         }
 
-        $this->adapter = new Hash;
+        $this->adapter = new HashStrategy;
     }
 
     public function dataValidEncodeDetails()

@@ -1,18 +1,18 @@
 <?php
 
-use Mardy\Hmac\HashManager;
-use Mardy\Hmac\Strategy\Hash;
+use Mardy\Hmac\HashEncoder;
+use Mardy\Hmac\Strategy\HashStrategy;
 
-class HashManagerTest extends \PHPUnit_Framework_Testcase
+class HashEncoderTest extends \PHPUnit_Framework_Testcase
 {
     /**
-     * @var \Mardy\Hmac\HashManager
+     * @var \Mardy\Hmac\HashEncoder
      */
     protected $manager;
 
     public function setup()
     {
-        $this->manager = new HashManager(new Hash);
+        $this->manager = new HashEncoder(new HashStrategy);
     }
 
     public function testEncodeAndIsValid()
@@ -72,12 +72,10 @@ class HashManagerTest extends \PHPUnit_Framework_Testcase
     public function testSetValidConfig()
     {
         $this->assertInstanceOf(
-            'Mardy\Hmac\HashManager',
+            'Mardy\Hmac\HashEncoder',
             $this->manager->config([
                 'algorithm' => 'sha512',
-                'num-first-iterations' => 1,
-                'num-second-iterations' => 1,
-                'num-final-iterations' => 1,
+                'cost' => 1,
             ])
         );
     }

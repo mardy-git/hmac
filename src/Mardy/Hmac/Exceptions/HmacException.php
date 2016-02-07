@@ -2,6 +2,6 @@
 
 namespace Mardy\Hmac\Exceptions;
 
-class HmacException extends \InvalidArgumentException
+class HmacException extends \Exception
 {
 }

@@ -1,12 +1,12 @@
 <?php
 
-use Mardy\Hmac\Strategy\Bcrypt;
+use Mardy\Hmac\Strategy\BcryptStrategy;
 
 if (!defined('PASSWORD_DEFAULT')) {
     define('PASSWORD_DEFAULT', '');
 }
 
-class BcryptTest extends BaseStrategyTest
+class BcryptStrategyTest extends BaseStrategyTest
 {
     public function setup()
     {
@@ -16,7 +16,7 @@ class BcryptTest extends BaseStrategyTest
             );
         }
 
-        $this->adapter = new Bcrypt;
+        $this->adapter = new BcryptStrategy;
     }
 
     public function testSetAlgorithmWithInvalidAlgorithmExpectsHmacInvalidAlgorithmException()

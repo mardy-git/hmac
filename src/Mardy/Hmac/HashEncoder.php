@@ -2,6 +2,7 @@
 
 namespace Mardy\Hmac;
 
+use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
 use Mardy\Hmac\Exceptions\HmacInvalidHashException;
 use Mardy\Hmac\Exceptions\HmacRequestTimeoutException;
 
@@ -13,7 +14,7 @@ use Mardy\Hmac\Exceptions\HmacRequestTimeoutException;
  * @package Mardy\Hmac
  * @author Michael Bardsley @mic_bardsley
  */
-class HashManager
+class HashEncoder
 {
     /**
      * @var \Mardy\Hmac\Strategy\StrategyInterface
@@ -48,7 +49,7 @@ class HashManager
      * Sets the private key in the item
      *
      * @param string $key
-     * @return HashManager
+     * @return HashEncoder
      */
     public function key($key)
     {
@@ -61,7 +62,7 @@ class HashManager
      * Sets the time in the item
      *
      * @param int $time
-     * @return HashManager
+     * @return HashEncoder
      */
     public function time($time)
     {
@@ -74,7 +75,7 @@ class HashManager
      * Sets the data in the item
      *
      * @param string $data
-     * @return HashManager
+     * @return HashEncoder
      */
     public function data($data)
     {
@@ -87,7 +88,7 @@ class HashManager
      * Sets the adapter config
      *
      * @param array $config
-     * @return HashManager
+     * @return HashEncoder
      */
     public function config(array $config)
     {
@@ -119,11 +120,23 @@ class HashManager
     /**
      * Encodes the HMAC and returns an array
      *
-     * @return HashManager
+     * @return HashEncoder
+     * @throws HmacInvalidArgumentException - if the hash is unable to be encoded
      */
     public function encode()
     {
-        $this->strategy->encode();
+        if (!$this->hashDataHandler->isEncodable()) {
+            throw new HmacInvalidArgumentException(
+                'The HMAC is not encodable, make sure the key, time and data are set'
+            );
+        }
+
+        $this->hashDataHandler->setHmac(
+            $this->strategy->hash(
+                $this->strategy->hash($this->hashDataHandler->getData(), $this->hashDataHandler->getTime()),
+                $this->strategy->hash($this->hashDataHandler->getKey(), '')
+            )
+        );
 
         return $this;
     }
@@ -152,7 +165,7 @@ class HashManager
      * Sets the Time To Live
      *
      * @param int|float $ttl
-     * @return HashManager
+     * @return HashEncoder
      */
     public function ttl($ttl)
     {

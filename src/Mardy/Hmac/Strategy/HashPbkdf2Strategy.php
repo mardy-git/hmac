@@ -10,7 +10,7 @@ use Mardy\Hmac\Exceptions\HmacMissingDependencyException;
  * @package Mardy\Hmac\Strategy
  * @author Michael Bardsley @mic_bardsley
  */
-class HashPbkdf2 extends AbstractStrategy
+class HashPbkdf2Strategy extends AbstractStrategy
 {
     /**
      * HashPbkdf2 constructor.
@@ -27,11 +27,10 @@ class HashPbkdf2 extends AbstractStrategy
      *
      * @param string $data the string of data that will be hashed
      * @param string $salt
-     * @param int $cost the number of iterations required
      * @return string
      */
-    protected function hash($data, $salt = '', $cost = 10)
+    public function hash($data, $salt = '')
     {
-        return hash_pbkdf2($this->algorithm, $data, $salt, $cost);
+        return hash_pbkdf2($this->algorithm, $data, $salt, $this->cost);
     }
 }

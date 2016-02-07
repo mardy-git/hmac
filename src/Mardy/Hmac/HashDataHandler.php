@@ -77,6 +77,7 @@ class HashDataHandler
      *
      * @param int|float $time - use time() or microtime(true)
      * @return HashDataHandler
+     * @throws HmacInvalidArgumentException - when the value is not an int or float
      */
     public function setTime($time)
     {
@@ -94,6 +95,7 @@ class HashDataHandler
      *
      * @param string $data
      * @return HashDataHandler
+     * @throws HmacInvalidArgumentException - when the value is not a string
      */
     public function setData($data)
     {
@@ -111,6 +113,7 @@ class HashDataHandler
      *
      * @param string $hmac
      * @return HashDataHandler
+     * @throws HmacInvalidArgumentException - when the value is not a string
      */
     public function setHmac($hmac)
     {
@@ -128,6 +131,7 @@ class HashDataHandler
      *
      * @param string $key
      * @return HashDataHandler
+     * @throws HmacInvalidArgumentException - when the value is not a string
      */
     public function setKey($key)
     {

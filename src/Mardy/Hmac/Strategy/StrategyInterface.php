@@ -16,9 +16,11 @@ interface StrategyInterface
      * Sets the entity object
      *
      * @param \Mardy\Hmac\HashDataHandler $hashDataHandler
-     * @return Hash
+     * @return HashStrategy
      */
     public function setHashDataHandler(HashDataHandler $hashDataHandler);
+
+    public function getCost();
 
     /**
      * Sets the Strategy config options
@@ -33,4 +35,11 @@ interface StrategyInterface
      * @return StrategyInterface
      */
     public function encode();
+
+    /**
+     * @param $data
+     * @param string $salt
+     * @return mixed
+     */
+    public function hash($data, $salt = '');
 }

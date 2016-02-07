@@ -11,7 +11,7 @@ use Mardy\Hmac\Exceptions\HmacMissingDependencyException;
  * @package Mardy\Hmac\Strategy
  * @author Michael Bardsley @mic_bardsley
  */
-class Bcrypt extends AbstractStrategy
+class BcryptStrategy extends AbstractStrategy
 {
     /**
      * The algorithm that will be used by the hash function, this is validated using the
@@ -19,11 +19,6 @@ class Bcrypt extends AbstractStrategy
      * @var string
      */
     protected $algorithm = PASSWORD_DEFAULT;
-
-    /**
-     * {@inherited}
-     */
-    protected $noFinalHashIterations = 10;
 
     /**
      * Bcrypt constructor.
@@ -40,19 +35,18 @@ class Bcrypt extends AbstractStrategy
      *
      * @param string $data the string of data that will be hashed
      * @param string $salt
-     * @param int $cost the number of iterations required
      * @return string
      */
-    protected function hash($data, $salt = '', $cost = 10)
+    public function hash($data, $salt = '')
     {
-        return password_hash($data . $salt, $this->algorithm, ['cost' => $cost, 'salt' => md5($salt)]);
+        return password_hash($data . $salt, $this->algorithm, ['cost' => $this->cost, 'salt' => md5($salt)]);
     }
 
     /**
      * Sets the algorithm that will be used by the encoding process
      *
      * @param string $algorithm
-     * @return Bcrypt
+     * @return BcryptStrategy
      * @throws HmacInvalidAlgorithmException
      */
     protected function setAlgorithm($algorithm)

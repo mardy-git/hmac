@@ -51,6 +51,16 @@ abstract class AbstractStrategy implements StrategyInterface
     }
 
     /**
+     * Gets the cost that is used when calculating the hash
+     *
+     * @return int
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
      * Sets the Strategy config options
      *
      * @param array $config
@@ -85,9 +95,8 @@ abstract class AbstractStrategy implements StrategyInterface
 
         $this->hashDataHandler->setHmac(
             $this->hash(
-                $this->hash($this->hashDataHandler->getData(), $this->hashDataHandler->getTime(), $this->cost),
-                $this->hash($this->hashDataHandler->getKey(), '', $this->cost),
-                $this->cost
+                $this->hash($this->hashDataHandler->getData(), $this->hashDataHandler->getTime()),
+                $this->hash($this->hashDataHandler->getKey(), '')
             )
         );
 
@@ -97,10 +106,9 @@ abstract class AbstractStrategy implements StrategyInterface
     /**
      * @param $data
      * @param string $salt
-     * @param int $cost
      * @return mixed
      */
-    abstract protected function hash($data, $salt = '', $cost = 10);
+    abstract public function hash($data, $salt = '');
 
     /**
      * Set the algorithm
