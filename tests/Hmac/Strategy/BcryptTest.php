@@ -35,9 +35,7 @@ class BcryptTest extends BaseStrategyTest
     {
         return [
             [['algorithm' => PASSWORD_DEFAULT]],
-            [['num-first-iterations' => 10]],
-            [['num-second-iterations' => 20]],
-            [['num-final-iterations' => 30]],
+            [['cost' => 10]],
         ];
     }
 

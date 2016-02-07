@@ -15,7 +15,7 @@ class HashDataHandlerTest extends \PHPUnit_Framework_Testcase
     }
 
     /**
-     * Testing all the getters and setters in the entity class
+     * Testing all the getters and setters in the data handler class
      */
     public function testGettersAndSetters()
     {
@@ -30,6 +30,67 @@ class HashDataHandlerTest extends \PHPUnit_Framework_Testcase
         $this->assertTrue($array['key'] === $this->hashDataHandler->getKey());
         $this->assertTrue($array['time'] === $this->hashDataHandler->getTime());
         $this->assertTrue($array['hmac'] === $this->hashDataHandler->getHmac());
+    }
+
+    /**
+     * @dataProvider dataInvalidStringValues
+     */
+    public function testSetDataWithInvalidValuesExpectException($invalidValue)
+    {
+        $this->setExpectedException(
+            'Mardy\Hmac\Exceptions\HmacInvalidArgumentException',
+            'The data is not a valid string'
+        );
+
+        $this->hashDataHandler->setData($invalidValue);
+    }
+
+    /**
+     * @dataProvider dataInvalidStringValues
+     */
+    public function testSetKeyWithInvalidValueExpectException($invalidValue)
+    {
+        $this->setExpectedException(
+            'Mardy\Hmac\Exceptions\HmacInvalidArgumentException',
+            'The key is not a valid string'
+        );
+
+        $this->hashDataHandler->setKey($invalidValue);
+    }
+
+    /**
+     * @dataProvider dataInvalidStringValues
+     */
+    public function testSetHmacWithInvalidValueExpectException($invalidValue)
+    {
+        $this->setExpectedException(
+            'Mardy\Hmac\Exceptions\HmacInvalidArgumentException',
+            'The HMAC is not a valid string'
+        );
+
+        $this->hashDataHandler->setHmac($invalidValue);
+    }
+
+    /**
+     * @dataProvider dataInvalidNumericValues
+     */
+    public function testSetTimeWithInvalidValueExpectException($invalidValue)
+    {
+        $this->setExpectedException(
+            'Mardy\Hmac\Exceptions\HmacInvalidArgumentException',
+            'The time is not a valid int or float'
+        );
+
+        $this->hashDataHandler->setTime($invalidValue);
+    }
+
+    public function dataInvalidNumericValues()
+    {
+        return [
+            [null],
+            [['value']],
+            [new stdClass()],
+        ];
     }
 
     /**
@@ -96,5 +157,28 @@ class HashDataHandlerTest extends \PHPUnit_Framework_Testcase
         $array['hmac'] = hash('sha512', rand(1000, 100000));
 
         return $array;
+    }
+
+    public function dataInvalidStringValues()
+    {
+        return [
+            [null],
+            [1],
+            [1.12],
+            [true],
+            [false],
+            [['value']],
+            [new stdClass()],
+        ];
+    }
+
+    public function dataInvalidKeyValues()
+    {
+        return [
+            [1],
+            [1.12],
+            [true],
+            [0x112345],
+        ];
     }
 }
