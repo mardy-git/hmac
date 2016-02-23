@@ -172,3 +172,7 @@ $client->getEmitter()->on('before', function (BeforeEvent $event) {
 $request = $client->createRequest('GET', 'http://www.google.com');
 $client->send($request);
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mardy-git/hmac/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
