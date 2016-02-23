@@ -1,6 +1,6 @@
 Mardy-Git HMAC
 ==============
-[![Build Status](https://travis-ci.org/mardy-git/hmac.png?branch=master)](https://travis-ci.org/mardy-git/hmac)
+[![Build Status](https://travis-ci.org/mardy-git/hmac.png?branch=master)](https://travis-ci.org/mardy-git/hmac) | [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mardy-git/hmac/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 A simple lightweight HMAC generator and checker.
 
