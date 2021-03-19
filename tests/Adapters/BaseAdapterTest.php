@@ -1,8 +1,13 @@
 <?php
 
-use Mardy\Hmac\Entity;
+namespace MardyHmacTest\Adapters;
 
-abstract class BaseAdapterTest extends PHPUnit_Framework_Testcase
+use Mardy\Hmac\Entity;
+use Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException;
+use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+
+abstract class BaseAdapterTest extends TestCase
 {
     const KEY = 'wul4RekRPOMw4a2A6frifPqnOxDqMXdtRQMt6v6lsCjxEeF9KgdwDCMpcwROTqyPxvs1ftw5qAHjL4Lb';
 
@@ -22,10 +27,8 @@ abstract class BaseAdapterTest extends PHPUnit_Framework_Testcase
 
     public function testSetAlgorithmWithInvalidAlgorithmExpectsHmacInvalidAlgorithmException()
     {
-        $this->setExpectedException(
-            'Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException',
-            'The algorithm (invalid-algorithm) selected is not available'
-        );
+        $this->expectException(HmacInvalidAlgorithmException::class);
+        $this->expectExceptionMessage('The algorithm (invalid-algorithm) selected is not available');
 
         $config = ['algorithm' => 'invalid-algorithm'];
 
@@ -52,10 +55,8 @@ abstract class BaseAdapterTest extends PHPUnit_Framework_Testcase
 
     public function testEncodeWithNonEncodableEntityExpectsHmacInvalidArgumentException()
     {
-        $this->setExpectedException(
-            'Mardy\Hmac\Exceptions\HmacInvalidArgumentException',
-            'The item is not encodable, make sure the key, time and data are set'
-        );
+        $this->expectException(HmacInvalidArgumentException::class);
+        $this->expectExceptionMessage('The item is not encodable, make sure the key, time and data are set');
 
         $entity = $this->mockEntity();
 

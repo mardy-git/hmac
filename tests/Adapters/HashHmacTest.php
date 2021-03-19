@@ -1,10 +1,12 @@
 <?php
 
+namespace MardyHmacTest\Adapters;
+
 use Mardy\Hmac\Adapters\HashHmac;
 
 class HashHmacTest extends BaseAdapterTest
 {
-    public function setup()
+    public function setup(): void
     {
         $this->adapter = new HashHmac;
     }

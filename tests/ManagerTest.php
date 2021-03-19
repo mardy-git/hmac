@@ -1,16 +1,22 @@
 <?php
 
+namespace MardyHmacTest;
+
+use Mardy\Hmac\Entity;
+use Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException;
+use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
 use Mardy\Hmac\Manager;
 use Mardy\Hmac\Adapters\Hash;
+use PHPUnit\Framework\TestCase;
 
-class ManagerTest extends PHPUnit_Framework_Testcase
+class ManagerTest extends TestCase
 {
     /**
-     * @var \Mardy\Hmac\Manager
+     * @var Manager
      */
     protected $manager;
 
-    public function setup()
+    public function setup(): void
     {
         $this->manager = new Manager(new Hash);
     }
@@ -35,26 +41,22 @@ class ManagerTest extends PHPUnit_Framework_Testcase
         $this->assertFalse($this->manager->encode()->isValid('f22081d5fcdf64e3ee78e79d235f67b2d1a54ba24be6da4ac554976d313e07cf119731e76585b9b22f789c6043efe1ff133497483f559899db7d2f43258276b08'));
     }
 
-    /**
-     * @expectedException Mardy\Hmac\Exceptions\HmacInvalidArgumentException
-     */
     public function testEncodeWithNoParametersThrowException()
     {
+        $this->expectException(HmacInvalidArgumentException::class);
         $this->manager->encode();
     }
 
-    /**
-     * @expectedException Mardy\Hmac\Exceptions\HmacInvalidAlgorithmException
-     */
     public function testInvalidAlgorithmException()
     {
+        $this->expectException(HmacInvalidAlgorithmException::class);
         $this->manager->config(['algorithm' => 'invalid-algorithm']);
     }
 
     public function testSetValidConfig()
     {
         $this->assertInstanceOf(
-            'Mardy\Hmac\Manager',
+            Manager::class,
             $this->manager->config([
                 'algorithm' => 'sha512',
                 'num-first-iterations' => 1,
@@ -77,7 +79,7 @@ class ManagerTest extends PHPUnit_Framework_Testcase
                       ->key('1234')
                       ->encode();
 
-        $this->assertInstanceOf('Mardy\Hmac\Entity', $this->manager->getHmac());
+        $this->assertInstanceOf(Entity::class, $this->manager->getHmac());
         $hmac = $this->manager->toArray();
 
         $this->assertTrue(isset($hmac['data'], $hmac['hmac'], $hmac['time']));

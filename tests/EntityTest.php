@@ -1,15 +1,18 @@
 <?php
 
-use Mardy\Hmac\Entity;
+namespace MardyHmacTest;
 
-class EntityTest extends PHPUnit_Framework_Testcase
+use Mardy\Hmac\Entity;
+use PHPUnit\Framework\TestCase;
+
+class EntityTest extends TestCase
 {
     /**
-     * @var \Mardy\Hmac\Entity
+     * @var Entity
      */
     protected $entity;
 
-    public function setup()
+    public function setup(): void
     {
         $this->entity = new Entity;
     }
