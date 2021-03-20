@@ -15,10 +15,10 @@ interface AdapterInterface
     /**
      * Sets the entity object
      *
-     * @param \Mardy\Hmac\Entity $entity
+     * @param Entity $entity
      * @return Hash
      */
-    public function setEntity(Entity $entity);
+    public function setEntity(Entity $entity): self;
 
     /**
      * Sets the adapter config options
@@ -32,5 +32,5 @@ interface AdapterInterface
      *
      * @return AdapterInterface
      */
-    public function encode();
+    public function encode(): AdapterInterface;
 }

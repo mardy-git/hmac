@@ -18,7 +18,7 @@ class Hash extends AbstractAdapter
      * @param int $iterations the number of iterations required
      * @return string
      */
-    protected function hash($data, $salt = '', $iterations = 10)
+    protected function hash(string $data, string $salt = '', int $iterations = 10): string
     {
         $hash = $data;
         foreach (range(1, $iterations) as $i) {

@@ -2,6 +2,8 @@
 
 namespace Mardy\Hmac;
 
+use Mardy\Hmac\Adapters\AdapterInterface;
+
 /**
  * Manager Class
  *
@@ -13,7 +15,7 @@ namespace Mardy\Hmac;
 class Manager
 {
     /**
-     * @var \Mardy\Hmac\Adapters\AdapterInterface
+     * @var AdapterInterface
      */
     protected $adapter;
 
@@ -32,9 +34,9 @@ class Manager
     /**
      * Constructor
      *
-     * @param \Mardy\Hmac\Adapters\AdapterInterface $adapter
+     * @param AdapterInterface $adapter
      */
-    public function __construct(Adapters\AdapterInterface $adapter)
+    public function __construct(AdapterInterface $adapter)
     {
         $this->adapter = $adapter;
         $this->entity = new Entity;
@@ -47,7 +49,7 @@ class Manager
      * @param string $key
      * @return Manager
      */
-    public function key($key)
+    public function key(string $key): self
     {
         $this->entity->setKey($key);
 
@@ -60,7 +62,7 @@ class Manager
      * @param int $time
      * @return Manager
      */
-    public function time($time)
+    public function time(int $time): self
     {
         $this->entity->setTime($time);
 
@@ -73,7 +75,7 @@ class Manager
      * @param string $data
      * @return Manager
      */
-    public function data($data)
+    public function data(string $data): self
     {
         $this->entity->setData($data);
 
@@ -86,7 +88,7 @@ class Manager
      * @param array $config
      * @return Manager
      */
-    public function config(array $config)
+    public function config(array $config): self
     {
         $this->adapter->setConfig($config);
 
@@ -97,9 +99,9 @@ class Manager
      * Checks the HMAC key to make sure it is valid
      *
      * @param string $hmac
-     * @return boolean
+     * @return bool
      */
-    public function isValid($hmac)
+    public function isValid($hmac): bool
     {
         $this->adapter->encode();
 
@@ -114,7 +116,7 @@ class Manager
      *
      * @return Manager
      */
-    public function encode()
+    public function encode(): self
     {
         $this->adapter->encode();
 
@@ -126,7 +128,7 @@ class Manager
      *
      * @return Entity
      */
-    public function getHmac()
+    public function getHmac(): Entity
     {
         return $this->entity;
     }
@@ -134,7 +136,7 @@ class Manager
     /**
      * Returns the entity array or false if the hmac doesn't exist
      *
-     * @return array
+     * @return array|false
      */
     public function toArray()
     {
@@ -147,7 +149,7 @@ class Manager
      * @param int|float $ttl
      * @return Manager
      */
-    public function ttl($ttl)
+    public function ttl($ttl): self
     {
         $this->ttl = is_int($ttl) ? (int) $ttl : (float) $ttl;
 

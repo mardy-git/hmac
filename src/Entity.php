@@ -18,17 +18,17 @@ class Entity
     /**
      * @var string
      */
-    protected $data = '';
+    protected string $data = '';
 
     /**
      * @var string
      */
-    protected $hmac = '';
+    protected string $hmac = '';
 
     /**
      * @var string
      */
-    protected $key;
+    protected string $key;
 
     /**
      * Gets the time
@@ -45,7 +45,7 @@ class Entity
      *
      * @return string
      */
-    public function getData()
+    public function getData(): string
     {
         return $this->data;
     }
@@ -55,7 +55,7 @@ class Entity
      *
      * @return string
      */
-    public function getHmac()
+    public function getHmac(): string
     {
         return $this->hmac;
     }
@@ -65,7 +65,7 @@ class Entity
      *
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -76,7 +76,7 @@ class Entity
      * @param int|float $time - use time() or microtime(true)
      * @return Entity
      */
-    public function setTime($time)
+    public function setTime($time): self
     {
         $this->time = is_float($time) ? (float) $time : (int) $time;
 
@@ -89,9 +89,9 @@ class Entity
      * @param string $data
      * @return Entity
      */
-    public function setData($data)
+    public function setData(string $data): self
     {
-        $this->data = (string) $data;
+        $this->data = $data;
 
         return $this;
     }
@@ -102,9 +102,9 @@ class Entity
      * @param string $hmac
      * @return Entity
      */
-    public function setHmac($hmac)
+    public function setHmac(string $hmac): self
     {
-        $this->hmac = (string) $hmac;
+        $this->hmac = $hmac;
 
         return $this;
     }
@@ -117,7 +117,7 @@ class Entity
      */
     public function setKey($key)
     {
-        $this->key = (string) $key;
+        $this->key = $key;
 
         return $this;
     }
@@ -125,9 +125,9 @@ class Entity
     /**
      * Checks if the time, data and key have been set so the HMAC can be generated
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEncodable()
+    public function isEncodable(): bool
     {
         return $this->time && $this->data && $this->key;
     }
@@ -135,9 +135,9 @@ class Entity
     /**
      * Checks if the HMAC has been generated
      *
-     * @return boolean
+     * @return bool
      */
-    public function isEncoded()
+    public function isEncoded(): bool
     {
         return (bool) $this->hmac;
     }

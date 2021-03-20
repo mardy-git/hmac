@@ -76,7 +76,7 @@ class HmacHeadersGuzzleEvent implements SubscriberInterface
      *
      * @return array
      */
-    public function getEvents()
+    public function getEvents(): array
     {
         return ['before' => ['onBefore', 100]];
     }

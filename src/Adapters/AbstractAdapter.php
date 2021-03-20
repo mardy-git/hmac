@@ -14,42 +14,42 @@ use Mardy\Hmac\Exceptions\HmacInvalidArgumentException;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
-    const ERROR_INVALID_ALGORITHM = 'The algorithm (%s) selected is not available';
+    public const ERROR_INVALID_ALGORITHM = 'The algorithm (%s) selected is not available';
 
     /**
      * The algorithm that will be used by the hash function, this is validated using the
      *
      * @var string
      */
-    protected $algorithm = 'sha512';
+    protected string $algorithm = 'sha512';
 
     /**
      * The data that will be used in the hash, this will need to be sent with the HTTP request
      *
      * @var Entity
      */
-    protected $entity;
+    protected Entity $entity;
 
     /**
      * The number of times the first hash will be iterated
      *
      * @var int
      */
-    protected $noFirstHashIterations = 10;
+    protected int $noFirstHashIterations = 10;
 
     /**
      * The number of times the second hash will be iterated
      *
      * @var int
      */
-    protected $noSecondHashIterations = 10;
+    protected int $noSecondHashIterations = 10;
 
     /**
      * The number of times the final hash will be iterated
      *
      * @var int
      */
-    protected $noFinalHashIterations = 100;
+    protected int $noFinalHashIterations = 100;
 
     /**
      * Sets the data that will be used in the hash
@@ -57,7 +57,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param \Mardy\Hmac\Entity $entity
      * @return AbstractAdapter
      */
-    public function setEntity(Entity $entity)
+    public function setEntity(Entity $entity): self
     {
         $this->entity = $entity;
 
@@ -70,7 +70,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param array $config
      * @return AbstractAdapter
      */
-    public function setConfig(array $config)
+    public function setConfig(array $config): self
     {
         if (isset($config['algorithm'])) {
             $this->setAlgorithm($config['algorithm']);
@@ -97,9 +97,9 @@ abstract class AbstractAdapter implements AdapterInterface
      * @throws HmacInvalidArgumentException
      * @return AbstractAdapter
      */
-    public function encode()
+    public function encode(): self
     {
-        if (! $this->entity->isEncodable()) {
+        if (!$this->entity->isEncodable()) {
             throw new HmacInvalidArgumentException(
                 'The item is not encodable, make sure the key, time and data are set'
             );
@@ -116,9 +116,9 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param $data
      * @param string $salt
      * @param int $iterations
-     * @return mixed
+     * @return string
      */
-    abstract protected function hash($data, $salt = '', $iterations = 10);
+    abstract protected function hash(string $data, string $salt = '', int $iterations = 10): string;
 
     /**
      * Set the algorithm
@@ -126,7 +126,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param string $algorithm
      * @return AbstractAdapter
      */
-    protected function setAlgorithm($algorithm)
+    protected function setAlgorithm($algorithm): self
     {
         $this->validateHashAlgorithm($algorithm);
         $this->algorithm = (string) $algorithm;
@@ -140,7 +140,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param string $algorithm
      * @throws HmacInvalidAlgorithmException
      */
-    protected function validateHashAlgorithm($algorithm)
+    protected function validateHashAlgorithm(string $algorithm): void
     {
         $algorithm = strtolower($algorithm);
         if (!in_array($algorithm, hash_algos())) {
